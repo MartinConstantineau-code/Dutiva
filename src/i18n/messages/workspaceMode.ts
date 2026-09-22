@@ -1,0 +1,43 @@
+import { defineMessages } from '../core'
+
+/**
+ * Workspace-mode strings — the production-mode empty states and the scrubbed
+ * shell surfaces (no design-handoff counterpart: production mode is new work
+ * on top of the prototype's demo experience). [FR self-authored] throughout.
+ */
+export const workspaceModeMessages = defineMessages({
+  /* ── Shared production empty state (ModeGate) ──────────────────────────── */
+  wsmode_empty_eyebrow: { en: 'Production workspace', fr: 'Espace de travail de production' },
+  wsmode_empty_body: {
+    en: 'Nothing here yet — your real workspace starts empty. Records you create will live here.',
+    fr: 'Rien ici pour l’instant — votre espace de travail réel commence vide. Les enregistrements que vous créerez apparaîtront ici.',
+  },
+  wsmode_empty_why: { en: 'Why is this empty?', fr: 'Pourquoi est-ce vide ?' },
+  wsmode_empty_hint: {
+    en: 'Start from Home — add a person, open Studio, or run a guided process.',
+    fr: 'Commencez depuis l’accueil — ajoutez une personne, ouvrez le Studio ou lancez un processus guidé.', // [FR self-authored]
+  },
+  wsmode_empty_settings_link: {
+    en: 'Want sample data? Open Demo in Settings',
+    fr: 'Vous voulez des données d’exemple ? Ouvrez la Démo dans les paramètres', // [FR self-authored]
+  },
+  wsmode_empty_cta_employees: { en: 'Add employees', fr: 'Ajouter des employés' }, // [FR self-authored]
+  wsmode_empty_cta_studio: { en: 'Open Studio', fr: 'Ouvrir le Studio' }, // [FR self-authored]
+  wsmode_empty_cta_workflows: {
+    en: 'Guided processes',
+    fr: 'Processus guidés', // [FR self-authored]
+  },
+
+  /* ── Topbar notifications ──────────────────────────────────────────────── */
+  wsmode_notifications_empty: {
+    en: 'You’re all caught up — no notifications.',
+    fr: 'Vous êtes à jour — aucune notification.',
+  },
+
+  /* ── Advisor home (production) ─────────────────────────────────────────── */
+  wsmode_advisor_greeting: { en: 'How can I help?', fr: 'Comment puis-je vous aider ?' },
+  wsmode_advisor_sub: {
+    en: 'Ask anything about HR compliance across Canada.',
+    fr: 'Posez toute question sur la conformité RH partout au Canada.',
+  },
+})

@@ -1,0 +1,154 @@
+import { defineMessages } from '../../core'
+
+export const landingWorkspaceDemos = defineMessages({
+  landing_ws_demo_badge: {
+    en: 'Workspace preview',
+    fr: 'Aperçu de l’espace',
+  },
+  landing_ws_demo_title: {
+    en: 'One workspace — HR compliance to business operations.',
+    fr: 'Un seul espace — de la conformité RH aux opérations quotidiennes.',
+  },
+  landing_ws_demo_sub: {
+    en: 'Sample Northgate data across the modules — open the read-only demo for the full workspace.',
+    fr: 'Données types Northgate dans les modules — ouvrez la démo en lecture seule pour l’espace complet.',
+  },
+  landing_ws_tabs_label: {
+    en: 'Workspace modules',
+    fr: 'Modules de l’espace',
+  },
+  landing_ws_demo_finance_title: {
+    en: 'Finance & operations',
+    fr: 'Finances et opérations',
+  },
+  landing_ws_demo_finance_sub: {
+    en: 'Ledger, reconciliation, and cash position — the operations side of the same workspace.',
+    fr: 'Grand livre, rapprochement et position de trésorerie — le volet opérationnel du même espace.',
+  },
+  landing_ws_demo_studio_title: {
+    en: 'Document Studio',
+    fr: 'Studio de documents',
+  },
+  landing_ws_demo_studio_sub: {
+    en: '50 HR templates drafted through guided questions — reviewed beside the guidance that shaped them.',
+    fr: '50 modèles RH rédigés par questions guidées — révisés à côté des conseils qui les ont façonnés.',
+  },
+  landing_ws_demo_analytics_title: {
+    en: 'Analytics',
+    fr: 'Analytique',
+  },
+  landing_ws_demo_analytics_sub: {
+    en: 'Compliance score and what needs attention this month.',
+    fr: 'Score de conformité et ce qui demande attention ce mois-ci.',
+  },
+  landing_ws_demo_cases_title: {
+    en: 'Cases',
+    fr: 'Dossiers',
+  },
+  landing_ws_demo_cases_sub: {
+    en: 'Termination and discipline files with Advisor context.',
+    fr: 'Dossiers de cessation et de discipline avec contexte du Conseiller.',
+  },
+  landing_ws_demo_comms_title: {
+    en: 'Communications',
+    fr: 'Communications',
+  },
+  landing_ws_demo_comms_sub: {
+    en: 'Plan initiatives, draft content, and track contacts — with bulk import.',
+    fr: 'Planifiez des initiatives, rédigez du contenu et suivez les contacts — avec import en bloc.',
+  },
+  landing_ws_demo_open: {
+    en: 'Open in demo',
+    fr: 'Ouvrir dans la démo',
+  },
+  landing_open_in_demo: {
+    en: 'Open in demo',
+    fr: 'Ouvrir dans la démo',
+  },
+  landing_ws_demo_path_label: {
+    en: 'Guided tour — pick a stop',
+    fr: 'Visite guidée — choisissez une étape',
+  },
+  /* Preview dialog for a tour stop before leaving the landing page. [FR self-authored] */
+  landing_ws_demo_see_more: {
+    en: 'See more in the demo',
+    fr: 'Voir plus dans la démo',
+  },
+  landing_ws_demo_close_preview: {
+    en: 'Close preview',
+    fr: 'Fermer l’aperçu',
+  },
+  landing_ws_demo_try: {
+    en: 'Click around this sample.',
+    fr: 'Cliquez dans cet exemple.',
+  },
+  landing_ws_demo_selected: {
+    en: 'Selected',
+    fr: 'Sélection',
+  },
+  landing_ws_demo_stops_label: {
+    en: 'Tour stops',
+    fr: 'Étapes de la visite',
+  },
+  landing_ws_demo_studio_templates: {
+    en: 'Sample templates',
+    fr: 'Modèles types',
+  },
+  landing_ws_demo_workflow_open: {
+    en: 'The full checklist and risk flags are in the demo.',
+    fr: 'La liste complète et les signaux de risque sont dans la démo.',
+  },
+  landing_ws_demo_case_overview: {
+    en: 'Overview',
+    fr: 'Aperçu',
+  },
+  landing_ws_demo_case_docs: {
+    en: 'Documents',
+    fr: 'Documents',
+  },
+  landing_ws_demo_case_tabs: {
+    en: 'Case sections',
+    fr: 'Sections du dossier',
+  },
+  landing_ws_demo_advisor_doc_hint: {
+    en: 'In the demo, this opens Document Studio with the suggested template.',
+    fr: 'Dans la démo, ceci ouvre le Studio de documents avec le modèle suggéré.',
+  },
+  landing_ws_demo_modules_heading: {
+    en: 'All modules in the demo',
+    fr: 'Tous les modules dans la démo',
+  },
+  landing_ws_demo_preview_note: {
+    en: 'Illustrative sample — not your organization’s data.',
+    fr: 'Exemple illustratif — pas les données de votre organisation.',
+  },
+  landing_ws_demo_comms_caps: {
+    en: 'Capabilities',
+    fr: 'Fonctions',
+  },
+  landing_ws_demo_case_next: {
+    en: 'Next step',
+    fr: 'Prochaine étape',
+  },
+  /* Hiring demo card — evidence-based recruitment funnel preview. [FR self-authored] */
+  landing_ws_demo_hiring_title: {
+    en: 'Hiring',
+    fr: 'Recrutement',
+  },
+  landing_ws_demo_hiring_sub: {
+    en: 'Evidence-based funnel with AI-resistant evaluation.',
+    fr: 'Entonnoir fondé sur des preuves avec évaluation résistante à l’IA.',
+  },
+  landing_ws_demo_hiring_candidate: {
+    en: 'Top candidate',
+    fr: 'Candidat principal',
+  },
+  landing_ws_demo_hiring_funnel: {
+    en: 'Funnel',
+    fr: 'Entonnoir',
+  },
+  landing_ws_demo_hiring_time: {
+    en: 'Time to hire',
+    fr: 'Temps d’embauche',
+  },
+})

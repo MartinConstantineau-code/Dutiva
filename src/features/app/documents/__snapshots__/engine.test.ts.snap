@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`conditional clauses (template × jurisdiction × headcount × union) > resolved T03 clause text is stable per context (snapshot matrix) > T03 ON non-union 1`] = `
+"Termination of Employment
+{{org}} · {{today}} · {{jurisdiction}}
+Dear {{employee_name}}, this letter confirms that your employment with {{org}} will end, without cause, effective {{effective_date}} after {{tenure_years}} years of service.
+You will receive {{notice_weeks}} weeks of notice (or pay in lieu) plus {{severance_weeks}} weeks of severance where applicable — meeting or exceeding the minimums for {{jurisdiction}}.
+Group benefits continue until {{benefits_end}}. Your final pay includes all earned wages and accrued vacation.
+We can provide a reference and outplacement support. Please return company property by your last day.
+[sig: Employer representative, Employee]
+Higher-risk document. Lawyer review is recommended before this is sent or signed.
+Review before use. Dutiva provides practical HR workflow support and compliance-oriented guidance. It does not provide legal advice."
+`;
+
+exports[`conditional clauses (template × jurisdiction × headcount × union) > resolved T03 clause text is stable per context (snapshot matrix) > T03 ON unionized 1`] = `
+"Termination of Employment
+{{org}} · {{today}} · {{jurisdiction}}
+Dear {{employee_name}}, this letter confirms that your employment with {{org}} will end, without cause, effective {{effective_date}} after {{tenure_years}} years of service.
+You will receive {{notice_weeks}} weeks of notice (or pay in lieu) plus {{severance_weeks}} weeks of severance where applicable — meeting or exceeding the minimums for {{jurisdiction}}.
+Group benefits continue until {{benefits_end}}. Your final pay includes all earned wages and accrued vacation.
+We can provide a reference and outplacement support. Please return company property by your last day.
+This workplace is unionized: the collective agreement and its grievance procedure govern this process, and this document must follow the negotiated steps and timelines.
+[sig: Employer representative, Employee]
+Higher-risk document. Lawyer review is recommended before this is sent or signed.
+Review before use. Dutiva provides practical HR workflow support and compliance-oriented guidance. It does not provide legal advice."
+`;

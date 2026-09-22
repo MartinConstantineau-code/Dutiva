@@ -1,0 +1,714 @@
+import { defineMessages } from '../core'
+
+/**
+ * HR Documents Library (Document Studio + Repository) — GENERATED from the
+ * handoff's DUTIVA_DATA.i18n dictionary (215 keys x EN/FR). Key mapping:
+ * dotted prototype namespaces become underscores under the doclib_ prefix
+ * (studio.title -> doclib_studio_title). Regenerate via scripts/generate-doclib.mjs.
+ */
+export const doclibMessages = defineMessages({
+  doclib_app_workspace: { en: 'HR workspace', fr: 'Espace RH' },
+  doclib_app_poweredBy: { en: 'Powered by', fr: 'Propulsé par' },
+  doclib_app_search: {
+    en: 'Search documents, people, templates…',
+    fr: 'Rechercher documents, personnes, modèles…',
+  },
+  doclib_app_searchShort: { en: 'Search', fr: 'Rechercher' },
+  doclib_app_newDocument: { en: 'New document', fr: 'Nouveau document' },
+  doclib_app_viewingAs: { en: 'Viewing as', fr: 'Affiché en tant que' },
+  doclib_app_devTools: { en: 'Prototype controls', fr: 'Contrôles du prototype' },
+  doclib_nav_sectionMain: { en: 'Workspace', fr: 'Espace de travail' },
+  doclib_nav_sectionLibrary: { en: 'Documents', fr: 'Documents' },
+  doclib_nav_sectionDev: { en: 'Developer', fr: 'Développeur' },
+  doclib_nav_home: { en: 'Home', fr: 'Accueil' },
+  doclib_nav_advisor: { en: 'AI Advisor', fr: 'Conseiller IA' },
+  doclib_nav_people: { en: 'People', fr: 'Personnes' },
+  doclib_nav_cases: { en: 'Case files', fr: 'Dossiers' },
+  doclib_nav_studio: { en: 'Templates', fr: 'Modèles' },
+  doclib_nav_documents: { en: 'Documents', fr: 'Documents' },
+  doclib_nav_compliance: { en: 'Compliance', fr: 'Conformité' },
+  doclib_nav_knowledge: { en: 'Knowledge base', fr: 'Base de connaissances' },
+  doclib_nav_settings: { en: 'Settings', fr: 'Réglages' },
+  doclib_nav_dataModel: { en: 'Data model & handoff', fr: 'Modèle de données et transfert' },
+  doclib_studio_eyebrow: { en: 'Templates', fr: 'Modèles' },
+  doclib_studio_title: {
+    en: 'Recommended templates for your organization',
+    fr: 'Modèles recommandés pour votre organisation',
+  },
+  doclib_studio_subtitle: {
+    en: 'Based on your jurisdiction, workforce and sector.',
+    fr: 'Selon votre territoire de compétence, votre effectif et votre secteur.',
+  },
+  /* Search placeholder is plain “Search templates…” — count lives once in the
+     result line, not in the placeholder. */
+  doclib_studio_searchPh: { en: 'Search templates…', fr: 'Rechercher des modèles…' },
+  doclib_studio_filters: { en: 'Filters', fr: 'Filtres' },
+  doclib_studio_category: { en: 'Category', fr: 'Catégorie' },
+  doclib_studio_jurisdiction: { en: 'Jurisdiction', fr: 'Territoire de compétence' },
+  doclib_studio_jurisdictions: { en: 'Jurisdictions', fr: 'Territoires de compétence' },
+  doclib_studio_risk: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_studio_review: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_studio_all: { en: 'All', fr: 'Tous' },
+  doclib_studio_results: { en: 'templates found', fr: 'modèles trouvés' },
+  doclib_studio_result: { en: 'template found', fr: 'modèle trouvé' },
+  doclib_studio_catalogue: { en: 'Templates', fr: 'Modèles' },
+  doclib_studio_noResults: {
+    en: 'No templates match these filters',
+    fr: 'Aucun modèle ne correspond à ces filtres',
+  },
+  doclib_studio_noResultsSub: {
+    en: 'Try clearing a filter or searching a different term.',
+    fr: 'Essayez de retirer un filtre ou un autre terme.',
+  },
+  doclib_studio_clear: { en: 'Clear filters', fr: 'Réinitialiser' },
+  doclib_studio_version: { en: 'Version', fr: 'Version' },
+  doclib_studio_uses: { en: 'uses', fr: 'utilisations' },
+  doclib_studio_est: { en: 'min', fr: 'min' },
+  doclib_studio_open: { en: 'Preview full template', fr: 'Prévisualiser le modèle complet' },
+  doclib_studio_generate: { en: 'Create document', fr: 'Créer le document' },
+  doclib_studio_askAdvisor: {
+    en: 'Ask Advisor about this template',
+    fr: 'Demander conseil au sujet de ce modèle',
+  },
+  doclib_studio_sections: { en: 'Document sections', fr: 'Sections du document' },
+  doclib_studio_sectionsSub: {
+    en: 'The completed document will be generated using the information you provide.',
+    fr: 'Le document final sera généré à partir des renseignements que vous fournirez.', // [FR self-authored]
+  },
+  doclib_studio_whyRecommended: {
+    en: 'Why recommended',
+    fr: 'Pourquoi ce modèle est recommandé',
+  },
+  doclib_studio_whyApplies: { en: 'Why this applies', fr: 'Pourquoi cela s’applique' },
+  doclib_studio_recommendedBadge: { en: 'Recommended', fr: 'Recommandé' },
+  doclib_studio_backToList: { en: 'Back to templates', fr: 'Retour aux modèles' }, // [FR self-authored]
+  doclib_studio_selectPrompt: {
+    en: 'Select a template to see details and create a document.',
+    fr: 'Sélectionnez un modèle pour voir les détails et créer un document.', // [FR self-authored]
+  },
+  doclib_studio_core: { en: 'Core', fr: 'Essentiel' },
+  doclib_studio_lawyerFlag: { en: 'Lawyer review', fr: 'Révision juridique' },
+  doclib_studio_hrFlag: { en: 'HR review', fr: 'Révision RH' },
+  doclib_studio_supports: { en: 'Supports', fr: 'Prend en charge' },
+  doclib_studio_libraryVsRepo: {
+    en: 'Templates are blank and reusable. Generated documents live in My documents.',
+    fr: 'Les modèles sont vierges et réutilisables. Les documents générés se trouvent dans Mes documents.', // [FR self-authored]
+  },
+  doclib_detail_back: { en: 'Back to templates', fr: 'Retour aux modèles' },
+  doclib_detail_about: { en: 'About this template', fr: 'À propos de ce modèle' },
+  doclib_detail_jurisdictionNotes: { en: 'Jurisdiction notes', fr: 'Notes par juridiction' },
+  doclib_detail_statutory: { en: 'Statutory references', fr: 'Références législatives' },
+  doclib_detail_includes: { en: "What's included", fr: 'Ce qui est inclus' },
+  doclib_detail_risk: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_detail_generate: { en: 'Create document', fr: 'Créer le document' },
+  doclib_detail_preview: { en: 'Sample preview', fr: 'Aperçu type' },
+  doclib_detail_est: { en: 'Est. time', fr: 'Durée estimée' },
+  doclib_detail_updated: { en: 'Updated', fr: 'Mis à jour' },
+  doclib_detail_version: { en: 'Version', fr: 'Version' },
+  doclib_detail_supports: { en: 'Supported jurisdictions', fr: 'Juridictions prises en charge' },
+  doclib_detail_requiresReview: { en: 'This template is flagged', fr: 'Ce modèle est signalé' },
+  doclib_detail_mergeNote: {
+    en: 'Fields shown like this are filled from your answers during generation.',
+    fr: 'Les champs affichés ainsi sont remplis à partir de vos réponses lors de la génération.',
+  },
+  doclib_gen_title: { en: 'Generate', fr: 'Générer' },
+  doclib_gen_step: { en: 'Step', fr: 'Étape' },
+  doclib_gen_of: { en: 'of', fr: 'sur' },
+  doclib_gen_context: { en: 'Context', fr: 'Contexte' },
+  doclib_gen_contextSub: {
+    en: 'Who and where is this document for?',
+    fr: 'Pour qui et où ce document est-il destiné ?',
+  },
+  doclib_gen_employee: { en: 'Employee (optional)', fr: 'Employé (facultatif)' },
+  doclib_gen_case: { en: 'Case file (optional)', fr: 'Dossier (facultatif)' },
+  doclib_gen_jurisdiction: { en: 'Jurisdiction', fr: 'Juridiction' },
+  doclib_gen_language: { en: 'Document language', fr: 'Langue du document' },
+  doclib_gen_bilingual_delivery: {
+    en: 'Delivered in English and French in one document.',
+    fr: 'Livré en anglais et en français dans un seul document.', // [FR self-authored]
+  },
+  doclib_gen_none: { en: 'None', fr: 'Aucun' },
+  doclib_gen_next: { en: 'Next', fr: 'Suivant' },
+  doclib_gen_back: { en: 'Back', fr: 'Précédent' },
+  doclib_gen_questions: { en: 'Guided questions', fr: 'Questions guidées' },
+  doclib_gen_livePreview: { en: 'Live preview', fr: 'Aperçu en direct' },
+  doclib_gen_review: { en: 'Review before creating', fr: 'Révision avant création' }, // [FR self-authored]
+  doclib_gen_reviewSub: {
+    en: 'Confirm before saving to My documents.',
+    fr: 'Confirmez avant d’enregistrer dans Mes documents.', // [FR self-authored]
+  },
+  doclib_gen_saveDraft: { en: 'Save draft', fr: 'Enregistrer le brouillon' },
+  doclib_gen_saving: { en: 'Saving…', fr: 'Enregistrement…' },
+  doclib_gen_saved: { en: 'All changes saved', fr: 'Modifications enregistrées' },
+  doclib_gen_unsaved: { en: 'Unsaved changes', fr: 'Modifications non enregistrées' },
+  doclib_gen_createDoc: { en: 'Save to My documents', fr: 'Enregistrer dans Mes documents' }, // [FR self-authored]
+  doclib_gen_missing_required: {
+    en: 'Still needed before this can be created:',
+    fr: 'Encore requis avant la création :',
+  },
+  doclib_gen_required: { en: 'Required', fr: 'Requis' },
+  doclib_gen_cancel: { en: 'Cancel', fr: 'Annuler' },
+  doclib_gen_riskLine: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_gen_reviewLine: { en: 'Review posture', fr: 'Posture de révision' },
+  doclib_gen_mergeFilled: { en: 'fields filled', fr: 'champs remplis' },
+  doclib_gen_mergeRemaining: { en: 'to fill', fr: 'à remplir' },
+  doclib_gen_autofill: { en: 'Auto-filled from context', fr: 'Rempli à partir du contexte' },
+  /* Statutory notice floor (statutoryFloor.ts). The letter tells the employee
+     the figure "meets or exceeds" the ESA minimum, so a number below it is a
+     letter asserting compliance while under-providing. Advisory only — the
+     minimum is a floor, and common-law notice is often far higher, so the copy
+     must never read as a recommended amount. [FR self-authored] */
+  doclib_gen_floor_below: {
+    en: 'Below the statutory minimum of {weeks} weeks for this tenure. The letter states the figure meets or exceeds the minimum — check before generating.',
+    fr: 'Inférieur au minimum légal de {weeks} semaines pour cette ancienneté. La lettre affirme que le montant respecte ou dépasse le minimum — vérifiez avant de générer.',
+  },
+  doclib_gen_floor_meets: {
+    en: 'At or above the statutory minimum of {weeks} weeks.',
+    fr: 'Égal ou supérieur au minimum légal de {weeks} semaines.',
+  },
+  doclib_gen_floor_info: {
+    en: 'Statutory minimum for this tenure: {weeks} weeks.',
+    fr: 'Minimum légal pour cette ancienneté : {weeks} semaines.',
+  },
+  doclib_gen_floor_common_law: {
+    en: 'Statutory floor only — common-law reasonable notice is often considerably higher.',
+    fr: 'Minimum légal seulement — le préavis raisonnable en common law est souvent bien supérieur.',
+  },
+  doclib_gen_floor_unavailable: {
+    en: 'No verified minimum is available for this jurisdiction yet — confirm against the governing statute.',
+    fr: 'Aucun minimum vérifié n’est disponible pour cette juridiction — vérifiez auprès de la loi applicable.',
+  },
+  doclib_gen_lawyerWarn: {
+    en: 'Legal review is recommended before this document is sent or signed.',
+    fr: 'Une révision juridique est recommandée avant l’envoi ou la signature.', // [FR self-authored]
+  },
+  doclib_gen_hrWarn: {
+    en: 'Careful HR review is required before this document is used.',
+    fr: 'Une révision RH approfondie est requise avant l’utilisation de ce document.', // [FR self-authored]
+  },
+  doclib_repo_eyebrow: { en: 'Documents', fr: 'Documents' },
+  doclib_repo_title: { en: 'My documents', fr: 'Mes documents' },
+  doclib_repo_subtitle: {
+    en: 'View and manage documents created from Dutiva templates.',
+    fr: 'Consultez et gérez les documents créés à partir des modèles Dutiva.',
+  },
+  doclib_repo_searchPh: { en: 'Search documents…', fr: 'Rechercher des documents…' },
+  doclib_repo_count: { en: 'documents', fr: 'documents' },
+  doclib_repo_empty: { en: 'No documents yet', fr: 'Aucun document pour le moment' },
+  doclib_repo_emptySub: {
+    en: 'Create a document from a jurisdiction-aware HR template.',
+    fr: 'Créez un document à partir d’un modèle RH adapté à votre territoire de compétence.', // [FR self-authored]
+  },
+  doclib_repo_goStudio: { en: 'Browse templates', fr: 'Parcourir les modèles' },
+  doclib_repo_createFrom: {
+    en: 'Create from a template',
+    fr: 'Créer à partir d’un modèle',
+  },
+  doclib_repo_noMatch: {
+    en: 'No documents match these filters',
+    fr: 'Aucun document ne correspond à ces filtres',
+  },
+  doclib_repo_showArchived: { en: 'Show archived', fr: 'Afficher les archives' },
+  doclib_repo_groupBy: { en: 'Group by', fr: 'Grouper par' },
+  doclib_repo_groupNone: { en: 'None', fr: 'Aucun' },
+  doclib_repo_groupEmployee: { en: 'Employee', fr: 'Employé' },
+  doclib_repo_groupStatus: { en: 'Status', fr: 'Statut' },
+  doclib_repo_groupCategory: { en: 'Category', fr: 'Catégorie' },
+  doclib_repo_orgWide: { en: 'Organization-wide', fr: 'Toute l’organisation' },
+  doclib_col_title: { en: 'Document', fr: 'Document' },
+  doclib_col_type: { en: 'Template', fr: 'Modèle' },
+  doclib_col_employee: { en: 'Employee / scope', fr: 'Employé / portée' },
+  doclib_col_jurisdiction: { en: 'Jur.', fr: 'Jur.' },
+  doclib_col_status: { en: 'Status', fr: 'Statut' },
+  doclib_col_review: { en: 'Review', fr: 'Révision' },
+  doclib_col_signature: { en: 'Signature', fr: 'Signature' },
+  doclib_col_risk: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_col_updated: { en: 'Updated', fr: 'Mis à jour' },
+  doclib_col_version: { en: 'Ver.', fr: 'Vers.' },
+  doclib_filter_category: { en: 'Category', fr: 'Catégorie' },
+  doclib_filter_jurisdiction: { en: 'Jurisdiction', fr: 'Juridiction' },
+  doclib_filter_language: { en: 'Language', fr: 'Langue' },
+  doclib_filter_status: { en: 'Status', fr: 'Statut' },
+  doclib_filter_review: { en: 'Review status', fr: 'Statut de révision' },
+  doclib_filter_signature: { en: 'Signature', fr: 'Signature' },
+  doclib_filter_risk: { en: 'Review level', fr: 'Niveau de révision' },
+  doclib_filter_employee: { en: 'Employee', fr: 'Employé' },
+  doclib_filter_all: { en: 'All', fr: 'Tous' },
+  doclib_docd_back: { en: 'Back to My documents', fr: 'Retour à Mes documents' }, // [FR self-authored]
+  doclib_docd_details: { en: 'Details', fr: 'Détails' },
+  doclib_docd_tabPreview: { en: 'Preview', fr: 'Aperçu' },
+  doclib_docd_tabFields: { en: 'Fields', fr: 'Champs' },
+  doclib_docd_tabVersions: { en: 'Versions', fr: 'Versions' },
+  doclib_docd_tabRecipients: { en: 'Recipients & signatures', fr: 'Destinataires et signatures' },
+  doclib_docd_tabAudit: { en: 'Audit trail', fr: 'Journal d’audit' },
+  doclib_docd_edit: { en: 'Edit', fr: 'Modifier' },
+  doclib_docd_requestReview: { en: 'Request review', fr: 'Demander une révision' },
+  doclib_docd_approve: { en: 'Approve', fr: 'Approuver' },
+  doclib_docd_sendSign: { en: 'Send for signature', fr: 'Envoyer pour signature' },
+  doclib_docd_export: { en: 'Export', fr: 'Exporter' },
+  doclib_docd_archive: { en: 'Archive', fr: 'Archiver' },
+  doclib_docd_restore: { en: 'Restore', fr: 'Restaurer' },
+  doclib_docd_void: { en: 'Void', fr: 'Annuler' },
+  doclib_docd_readOnly: { en: 'Read-only', fr: 'Lecture seule' },
+  doclib_docd_readOnlySub: {
+    en: 'Your role can view this document but not change it.',
+    fr: 'Votre rôle peut consulter ce document mais non le modifier.',
+  },
+  doclib_docd_permDenied: {
+    en: 'Action not available for your role',
+    fr: 'Action non disponible pour votre rôle',
+  },
+  doclib_docd_version: { en: 'Version', fr: 'Version' },
+  doclib_docd_current: { en: 'Current', fr: 'Actuelle' },
+  doclib_docd_changeSummary: { en: 'Change summary', fr: 'Résumé des modifications' },
+  doclib_docd_by: { en: 'by', fr: 'par' },
+  doclib_docd_recipient: { en: 'Recipient', fr: 'Destinataire' },
+  doclib_docd_role: { en: 'Role', fr: 'Rôle' },
+  doclib_docd_order: { en: 'Order', fr: 'Ordre' },
+  doclib_docd_sigStatus: { en: 'Status', fr: 'Statut' },
+  doclib_docd_provider: { en: 'Provider', fr: 'Fournisseur' },
+  doclib_docd_envelope: { en: 'Envelope', fr: 'Enveloppe' },
+  doclib_docd_sign: { en: 'Sign', fr: 'Signer' },
+  doclib_docd_providerAgnostic: {
+    en: 'Dutiva Signature — proprietary in-app workflow with consent and audit records.',
+    fr: 'Signature Dutiva — flux propriétaire intégré avec consentement et registres d’audit.',
+  },
+  doclib_docd_noRecipients: {
+    en: 'No recipients yet. Send for signature to add them.',
+    fr: 'Aucun destinataire. Envoyez pour signature pour les ajouter.',
+  },
+  doclib_docd_field: { en: 'Field', fr: 'Champ' },
+  doclib_docd_value: { en: 'Value', fr: 'Valeur' },
+  doclib_docd_notFilled: { en: 'Not filled', fr: 'Non rempli' },
+  doclib_docd_of: { en: 'of', fr: 'sur' },
+  doclib_docd_template: { en: 'Template', fr: 'Modèle' },
+  doclib_docd_jurisdiction: { en: 'Jurisdiction', fr: 'Juridiction' },
+  doclib_docd_created: { en: 'Created', fr: 'Créé' },
+  doclib_docd_updated: { en: 'Updated', fr: 'Mis à jour' },
+  doclib_dm_eyebrow: { en: 'Developer handoff', fr: 'Transfert au développeur' },
+  doclib_dm_title: {
+    en: 'Data model & handoff map',
+    fr: 'Modèle de données et carte de transfert',
+  },
+  doclib_dm_subtitle: {
+    en: 'How this UI maps to the Supabase schema, statuses, roles, and audit trail — built to wire directly into React/Vite + Supabase on Vercel.',
+    fr: 'Comment cette interface se rattache au schéma Supabase, aux statuts, aux rôles et au journal d’audit — conçue pour se brancher directement à React/Vite + Supabase sur Vercel.',
+  },
+  doclib_dm_entities: { en: 'Entities & tables', fr: 'Entités et tables' },
+  doclib_dm_flow: { en: 'End-to-end flow', fr: 'Flux de bout en bout' },
+  doclib_dm_enums: { en: 'Status enums', fr: 'Énumérations de statut' },
+  doclib_dm_roles: { en: 'Roles & permissions (RLS)', fr: 'Rôles et permissions (RLS)' },
+  doclib_dm_fields: { en: 'Key fields', fr: 'Champs clés' },
+  doclib_dm_relations: { en: 'Relations', fr: 'Relations' },
+  doclib_dm_uiMapping: { en: 'Where it surfaces', fr: 'Où cela apparaît' },
+  doclib_dm_rlsNote: {
+    en: "Every table is org-scoped. Row Level Security limits reads to the caller's organization_members row; role drives write capability.",
+    fr: 'Chaque table est cloisonnée par organisation. La sécurité au niveau des lignes limite les lectures à l’organisation de l’appelant ; le rôle détermine les droits d’écriture.',
+  },
+  doclib_dm_legend: { en: 'Grouped by domain', fr: 'Regroupé par domaine' },
+  doclib_dm_capability: { en: 'Capability', fr: 'Capacité' },
+  doclib_dm_stack: { en: 'Target stack', fr: 'Pile cible' },
+  doclib_toast_draftSaved: { en: 'Draft saved', fr: 'Brouillon enregistré' },
+  doclib_toast_reviewRequested: { en: 'Review requested', fr: 'Révision demandée' },
+  doclib_toast_approved: { en: 'Document approved', fr: 'Document approuvé' },
+  doclib_toast_sent: { en: 'Sent for signature', fr: 'Envoyé pour signature' },
+  doclib_toast_exported: { en: 'Exported', fr: 'Exporté' },
+  doclib_toast_archived: { en: 'Archived', fr: 'Archivé' },
+  doclib_toast_restored: { en: 'Restored', fr: 'Restauré' },
+  doclib_toast_voided: { en: 'Voided', fr: 'Annulé' },
+  doclib_toast_created: { en: 'Document saved to repository', fr: 'Document enregistré au dépôt' },
+  doclib_toast_denied: {
+    en: "Your role can't do that",
+    fr: 'Votre rôle ne permet pas cette action',
+  },
+  doclib_toast_roleChanged: { en: 'Now viewing as', fr: 'Affiché maintenant en tant que' },
+  doclib_disc_short: {
+    en: 'Compliance-oriented guidance, not legal advice.',
+    fr: 'Accompagnement axé sur la conformité, non des conseils juridiques.',
+  },
+  doclib_disc_full: {
+    en: 'Dutiva provides practical HR workflow support and compliance-oriented guidance. It does not provide legal advice.',
+    fr: 'Dutiva offre un soutien pratique aux processus RH et un accompagnement axé sur la conformité. Il ne fournit pas de conseils juridiques.',
+  },
+  doclib_common_loading: { en: 'Loading…', fr: 'Chargement…' },
+  doclib_common_optional: { en: 'optional', fr: 'facultatif' },
+  doclib_common_close: { en: 'Close', fr: 'Fermer' },
+  doclib_common_cancel: { en: 'Cancel', fr: 'Annuler' },
+  doclib_common_today: { en: 'today', fr: 'aujourd’hui' },
+  doclib_profile_title: { en: 'Organization profile', fr: 'Profil de l’organisation' },
+  doclib_profile_sub: {
+    en: 'Used to recommend templates. Not a legal determination.',
+    fr: 'Sert à recommander des modèles. Ce n’est pas une détermination juridique.', // [FR self-authored]
+  },
+  doclib_profile_employee: { en: 'employee', fr: 'employé' },
+  doclib_profile_employees: { en: 'employees', fr: 'employés' },
+  doclib_profile_union: { en: 'Unionized', fr: 'Syndiqué' },
+  doclib_profile_nonunion: { en: 'Non-union', fr: 'Non syndiqué' },
+  doclib_profile_sector: { en: 'Sector', fr: 'Secteur' },
+  doclib_profile_regulated: { en: 'federally regulated', fr: 'de compétence fédérale' },
+  doclib_profile_provincial: { en: 'provincially regulated', fr: 'de compétence provinciale' },
+  doclib_profile_headcount: { en: 'Headcount', fr: 'Effectif' },
+  doclib_profile_unionToggle: { en: 'Union status', fr: 'Statut syndical' },
+  doclib_profile_edit: { en: 'Edit profile', fr: 'Modifier le profil' },
+  doclib_profile_why: { en: 'Why these templates', fr: 'Pourquoi ces modèles' },
+  doclib_profile_whyBody: {
+    en: 'Recommendations use your jurisdiction, workforce size, sector (including whether it is federally regulated), and union status. They do not guarantee that a template is legally required or sufficient for your situation.',
+    fr: 'Les recommandations tiennent compte de votre territoire de compétence, de la taille de votre effectif, de votre secteur (y compris s’il est de compétence fédérale) et de votre statut syndical. Elles ne garantissent pas qu’un modèle est légalement requis ou suffisant pour votre situation.', // [FR self-authored]
+  },
+  doclib_profile_incomplete: {
+    en: 'Complete your organization profile to personalize template recommendations.',
+    fr: 'Complétez le profil de votre organisation pour personnaliser les recommandations de modèles.', // [FR self-authored]
+  },
+  doclib_profile_complete: { en: 'Complete profile', fr: 'Compléter le profil' }, // [FR self-authored]
+  doclib_applic_required: {
+    en: 'Required based on your profile',
+    fr: 'Requis selon votre profil',
+  },
+  doclib_applic_applies: {
+    en: 'Recommended for your organization',
+    fr: 'Recommandé pour votre organisation',
+  },
+  doclib_applic_recommended: {
+    en: 'Recommended for your organization',
+    fr: 'Recommandé pour votre organisation',
+  },
+  doclib_applic_available: {
+    en: 'Available for your jurisdiction',
+    fr: 'Disponible pour votre territoire de compétence',
+  },
+  doclib_applic_not_matched: {
+    en: 'Not matched to your profile',
+    fr: 'Ne correspond pas à votre profil',
+  },
+  doclib_applic_union: {
+    en: 'Collective agreement governs',
+    fr: 'Convention collective applicable',
+  },
+  doclib_applic_below: {
+    en: 'Available for your jurisdiction',
+    fr: 'Disponible pour votre territoire de compétence',
+  },
+  doclib_applic_title: {
+    en: 'Applicability',
+    fr: 'Applicabilité',
+  },
+  doclib_studio_applies: { en: 'Applies to my org', fr: 'S’applique à mon org.' },
+  doclib_review_standard: { en: 'Standard review', fr: 'Révision standard' },
+  doclib_review_careful: { en: 'Careful review', fr: 'Révision approfondie' },
+  doclib_review_legal: {
+    en: 'Legal review recommended',
+    fr: 'Révision juridique recommandée',
+  },
+  doclib_review_standard_desc: {
+    en: 'Routine document. Standard HR review is enough.',
+    fr: 'Document courant. Une révision RH standard suffit.',
+  },
+  doclib_review_careful_desc: {
+    en: 'Some legal exposure. Careful HR review before use.',
+    fr: 'Exposition juridique modérée. Révision RH approfondie avant usage.',
+  },
+  doclib_review_legal_desc: {
+    en: 'Significant exposure. Lawyer review recommended before use.',
+    fr: 'Exposition importante. Révision juridique recommandée avant usage.',
+  },
+  doclib_gen_employeeReq: { en: 'Employee', fr: 'Employé(e)' },
+  doclib_gen_empRequired: {
+    en: 'Required for this document type',
+    fr: 'Requis pour ce type de document',
+  },
+  doclib_gen_orgWideNote: {
+    en: 'Organization-wide document — it applies to the whole workplace, not one employee.',
+    fr: 'Document à portée organisationnelle — il s’applique à tout le milieu de travail, non à un seul employé.',
+  },
+  doclib_gen_candLink: { en: 'Employee record (optional)', fr: 'Dossier d’employé (facultatif)' },
+  doclib_gen_candHint: {
+    en: 'The candidate is named in the guided questions — link a People record only if one already exists.',
+    fr: 'Le candidat est nommé dans les questions guidées — liez un dossier Personnes seulement s’il existe déjà.',
+  },
+  doclib_gen_extNote: {
+    en: 'External party — the contractor or business is named in the guided questions.',
+    fr: 'Partie externe — l’entrepreneur ou l’entreprise est nommé dans les questions guidées.',
+  },
+  doclib_modal_title: { en: 'Send for signature', fr: 'Envoyer pour signature' },
+  doclib_modal_subtitle: {
+    en: 'Add the people who need to sign, in the order they should sign.',
+    fr: 'Ajoutez les personnes qui doivent signer, dans l’ordre où elles doivent signer.',
+  },
+  doclib_modal_name: { en: 'Full name', fr: 'Nom complet' },
+  doclib_modal_namePh: { en: 'Jane Doe', fr: 'Jeanne Tremblay' },
+  doclib_modal_email: { en: 'Email', fr: 'Courriel' },
+  doclib_modal_emailPh: { en: 'name@company.ca', fr: 'nom@entreprise.ca' },
+  doclib_modal_add: { en: '+ Add recipient', fr: '+ Ajouter un destinataire' },
+  doclib_modal_remove: { en: 'Remove', fr: 'Retirer' },
+  doclib_modal_email_invites: {
+    en: 'Email signing links to recipients',
+    fr: 'Envoyer les liens de signature par courriel',
+  },
+  doclib_modal_email_invites_hint: {
+    en: 'Each person receives a personal link to /sign — no Dutiva account required.',
+    fr: 'Chaque personne reçoit un lien personnel vers /sign — aucun compte Dutiva requis.',
+  },
+  doclib_sign_title: { en: 'Sign document', fr: 'Signer le document' },
+  doclib_sign_subtitle: {
+    en: 'Review the document, then sign below.',
+    fr: 'Révisez le document, puis signez ci-dessous.',
+  },
+  doclib_sign_select: {
+    en: 'Select a recipient to sign:',
+    fr: 'Choisissez un destinataire à signer :',
+  },
+  doclib_sign_name: { en: 'Signer’s full name', fr: 'Nom complet du signataire' },
+  doclib_sign_namePh: { en: 'Type your full name', fr: 'Saisissez votre nom complet' },
+  doclib_sign_draw: { en: 'Draw', fr: 'Dessiner' },
+  doclib_sign_type: { en: 'Type', fr: 'Saisir' },
+  doclib_sign_clear: { en: 'Clear', fr: 'Effacer' },
+  doclib_sign_done: { en: 'Sign document', fr: 'Signer le document' },
+  doclib_sign_confirm: {
+    en: 'By signing, you confirm that you have read and agree to this document.',
+    fr: 'En signant, vous confirmez avoir lu et accepté ce document.',
+  },
+  doclib_sign_consent: {
+    en: 'I agree to sign this document electronically using Dutiva Signature and understand this creates a signing record tied to my account.',
+    fr: 'J’accepte de signer ce document électroniquement au moyen de la Signature Dutiva et je comprends qu’un registre de signature sera associé à mon compte.',
+  },
+  doclib_sign_legalNotice: {
+    en: 'Dutiva provides workflow support for electronic signatures. Whether an electronic signature is appropriate for your document, jurisdiction, and purpose is your responsibility to confirm.',
+    fr: 'Dutiva offre un soutien de flux pour les signatures électroniques. Il vous appartient de confirmer si une signature électronique convient à votre document, juridiction et objectif.',
+  },
+  doclib_sign_dutivaNote: {
+    en: 'Dutiva Signature — review the frozen document, then sign in order when it is your turn.',
+    fr: 'Signature Dutiva — révisez le document figé, puis signez lorsque c’est votre tour.',
+  },
+  doclib_sign_decline: { en: 'Decline to sign', fr: 'Refuser de signer' },
+  doclib_sign_declined: { en: 'Signature declined', fr: 'Signature refusée' },
+  doclib_sign_waitingTurn: {
+    en: 'Waiting for an earlier signer in the sequence.',
+    fr: 'En attente d’un signataire précédent dans la séquence.',
+  },
+  doclib_sign_wrongAccount: {
+    en: 'This envelope is not assigned to your account',
+    fr: 'Cette enveloppe n’est pas assignée à votre compte',
+  },
+  doclib_sign_wrongAccountBody: {
+    en: 'Sign in with the email address listed as a recipient, or ask an admin to re-send the envelope with the correct address.',
+    fr: 'Connectez-vous avec l’adresse courriel indiquée comme destinataire, ou demandez à un administrateur de renvoyer l’enveloppe à la bonne adresse.',
+  },
+  doclib_sign_alreadySigned_title: {
+    en: 'You already signed this envelope',
+    fr: 'Vous avez déjà signé cette enveloppe',
+  },
+  doclib_sign_alreadySigned_body: {
+    en: 'Your signature is recorded. You can close this page or return to the document while other signers complete theirs.',
+    fr: 'Votre signature est enregistrée. Vous pouvez fermer cette page ou retourner au document pendant que les autres signataires complètent la leur.',
+  },
+  doclib_sign_notFound: {
+    en: 'Signature link not found or expired.',
+    fr: 'Lien de signature introuvable ou expiré.',
+  },
+  doclib_sign_back: { en: 'Back to Documents', fr: 'Retour aux documents' },
+
+  /* Production repository (migration 0076) — [FR self-authored] */
+  doclib_prod_loading: { en: 'Loading documents…', fr: 'Chargement des documents…' },
+  doclib_prod_count_one: { en: 'document', fr: 'document' },
+  doclib_prod_count_many: { en: 'documents', fr: 'documents' },
+  doclib_prod_searchPh: { en: 'Search documents…', fr: 'Rechercher des documents…' },
+  doclib_prod_status_all: { en: 'All statuses', fr: 'Tous les statuts' },
+  doclib_prod_status_draft: { en: 'Draft', fr: 'Brouillon' },
+  doclib_prod_status_approved: { en: 'Approved', fr: 'Approuvé' },
+  doclib_prod_status_archived: { en: 'Archived', fr: 'Archivé' },
+  doclib_prod_empty_title: { en: 'No documents yet', fr: 'Aucun document pour le moment' },
+  doclib_prod_empty_body: {
+    en: 'Create a document from a jurisdiction-aware HR template.',
+    fr: 'Créez un document à partir d’un modèle RH adapté à votre territoire de compétence.', // [FR self-authored]
+  },
+  doclib_prod_go_studio: { en: 'Browse templates', fr: 'Parcourir les modèles' },
+  doclib_prod_error: {
+    en: 'Could not load documents. Check your connection and try again.',
+    fr: 'Impossible de charger les documents. Vérifiez votre connexion et réessayez.',
+  },
+  doclib_prod_retry: { en: 'Retry', fr: 'Réessayer' },
+  doclib_prod_col_ref: { en: 'Ref', fr: 'Réf.' },
+  doclib_prod_col_title: { en: 'Title', fr: 'Titre' },
+  doclib_prod_col_template: { en: 'Template', fr: 'Modèle' },
+  doclib_prod_col_status: { en: 'Status', fr: 'Statut' },
+  doclib_prod_col_updated: { en: 'Updated', fr: 'Mis à jour' },
+  doclib_prod_no_match: {
+    en: 'No documents match these filters.',
+    fr: 'Aucun document ne correspond à ces filtres.',
+  },
+  doclib_prod_detail_loading: { en: 'Loading document…', fr: 'Chargement du document…' },
+  doclib_prod_detail_missing: {
+    en: 'This document was not found in your organization.',
+    fr: 'Ce document est introuvable dans votre organisation.',
+  },
+  doclib_prod_back: { en: 'Back to My documents', fr: 'Retour à Mes documents' }, // [FR self-authored]
+  doclib_prod_archive: { en: 'Archive', fr: 'Archiver' },
+  doclib_prod_archived: { en: 'Document archived', fr: 'Document archivé' },
+  doclib_prod_archive_failed: {
+    en: 'Could not archive this document.',
+    fr: 'Impossible d’archiver ce document.',
+  },
+  doclib_prod_tab_preview: { en: 'Preview', fr: 'Aperçu' },
+  doclib_prod_tab_fields: { en: 'Fields', fr: 'Champs' },
+  doclib_prod_tab_versions: { en: 'Versions', fr: 'Versions' },
+  doclib_prod_tab_audit: { en: 'Audit trail', fr: 'Journal d’audit' },
+  doclib_prod_field: { en: 'Field', fr: 'Champ' },
+  doclib_prod_value: { en: 'Value', fr: 'Valeur' },
+  doclib_prod_not_filled: { en: 'Not filled', fr: 'Non rempli' },
+  doclib_prod_version: { en: 'Version', fr: 'Version' },
+  doclib_prod_current: { en: 'Current', fr: 'Actuelle' },
+  doclib_prod_status_sent: { en: 'Sent for signature', fr: 'Envoyé pour signature' },
+  doclib_prod_status_partial: { en: 'Partially signed', fr: 'Partiellement signé' },
+  doclib_prod_status_signed: { en: 'Signed', fr: 'Signé' },
+  doclib_prod_status_voided: { en: 'Voided', fr: 'Annulé' },
+  doclib_prod_status_exported: { en: 'Exported', fr: 'Exporté' },
+  doclib_prod_export_failed: {
+    en: 'Could not export this document.',
+    fr: 'Impossible d’exporter ce document.',
+  },
+  doclib_prod_stored_exports: { en: 'Stored exports', fr: 'Exports enregistrés' },
+  doclib_prod_download_export: { en: 'Download PDF', fr: 'Télécharger le PDF' },
+  doclib_external_copy_link: { en: 'Copy signing link', fr: 'Copier le lien de signature' },
+  doclib_external_email_link: { en: 'Email signing link', fr: 'Envoyer le lien par courriel' },
+  doclib_external_email_all: {
+    en: 'Email current signer',
+    fr: 'Envoyer au signataire actuel',
+  },
+  doclib_external_email_sent: {
+    en: 'Signing invite emailed',
+    fr: 'Invitation de signature envoyée',
+  },
+  doclib_external_email_failed: {
+    en: 'Could not email the signing link.',
+    fr: 'Impossible d’envoyer le lien de signature par courriel.',
+  },
+  doclib_external_email_no_provider: {
+    en: 'Email delivery is not configured on this workspace yet.',
+    fr: 'L’envoi de courriels n’est pas encore configuré pour cet espace de travail.',
+  },
+  doclib_external_link_copied: { en: 'Signing link copied', fr: 'Lien de signature copié' },
+  doclib_external_link_copy_failed: {
+    en: 'Could not copy the signing link.',
+    fr: 'Impossible de copier le lien de signature.',
+  },
+  doclib_invite_delivery_sent: {
+    en: 'Invite sent',
+    fr: 'Invitation envoyée',
+  },
+  doclib_invite_delivery_delivered: {
+    en: 'Invite delivered',
+    fr: 'Invitation livrée',
+  },
+  doclib_invite_delivery_bounced: {
+    en: 'Invite bounced',
+    fr: 'Invitation rejetée',
+  },
+  doclib_invite_delivery_complained: {
+    en: 'Invite marked as spam',
+    fr: 'Invitation signalée comme indésirable',
+  },
+  doclib_invite_delivery_delayed: {
+    en: 'Invite delayed',
+    fr: 'Invitation retardée',
+  },
+  doclib_invite_last_sent: {
+    en: 'Last emailed',
+    fr: 'Dernier courriel',
+  },
+  doclib_prod_invite_bounced_banner: {
+    en: '{count} signing invite(s) bounced or were marked as spam. Update the email address or refresh the link.',
+    fr: '{count} invitation(s) de signature ont été rejetées ou signalées comme indésirables. Corrigez l’adresse ou renouvelez le lien.',
+  },
+  doclib_external_reissue_link: {
+    en: 'Refresh link',
+    fr: 'Renouveler le lien',
+  },
+  doclib_external_reissue_done: {
+    en: 'Signing link refreshed',
+    fr: 'Lien de signature renouvelé',
+  },
+  doclib_external_reissue_failed: {
+    en: 'Could not refresh the signing link',
+    fr: 'Impossible de renouveler le lien de signature',
+  },
+  doclib_external_link_expired: {
+    en: 'Signing link expired — refresh before sharing',
+    fr: 'Lien de signature expiré — renouvelez-le avant de le partager',
+  },
+  doclib_external_intro: {
+    en: 'Review this document and sign electronically. No Dutiva account is required.',
+    fr: 'Passez ce document en revue et signez électroniquement. Aucun compte Dutiva requis.',
+  },
+  doclib_external_invalid_link: {
+    en: 'This signing link is invalid, expired, or has been revoked.',
+    fr: 'Ce lien de signature est invalide, expiré ou a été révoqué.',
+  },
+  doclib_external_signed_title: { en: 'Signature recorded', fr: 'Signature enregistrée' },
+  doclib_external_signed_body: {
+    en: 'Thank you — your signature has been captured. You may close this page.',
+    fr: 'Merci — votre signature a été enregistrée. Vous pouvez fermer cette page.',
+  },
+  doclib_external_signed_partial_title: {
+    en: 'Your signature is recorded',
+    fr: 'Votre signature est enregistrée',
+  },
+  doclib_external_signed_partial_body: {
+    en: 'Thank you — your part is complete. Other signers still need to sign before the document is fully executed. You may close this page.',
+    fr: 'Merci — votre partie est complète. D’autres signataires doivent encore signer avant que le document soit entièrement exécuté. Vous pouvez fermer cette page.',
+  },
+  doclib_external_sign_failed: {
+    en: 'Could not record your signature. Check your connection and try again.',
+    fr: 'Impossible d’enregistrer votre signature. Vérifiez votre connexion et réessayez.',
+  },
+  doclib_prod_dutiva_signing_note: {
+    en: 'Dutiva Signature — proprietary in-app workflow with consent, signing order, and an audit trail. Signers open the envelope inside the workspace (no third-party e-sign vendor).',
+    fr: 'Signature Dutiva — flux propriétaire intégré avec consentement, ordre de signature et journal d’audit. Les signataires ouvrent l’enveloppe dans l’espace de travail (aucun fournisseur externe).',
+  },
+  doclib_prod_approve: { en: 'Approve for signing', fr: 'Approuver pour signature' },
+  doclib_prod_approved: { en: 'Document approved', fr: 'Document approuvé' },
+  doclib_prod_approve_failed: {
+    en: 'Could not approve this document.',
+    fr: 'Impossible d’approuver ce document.',
+  },
+  doclib_prod_void_sign: { en: 'Void envelope', fr: 'Annuler l’enveloppe' },
+  doclib_prod_voided: { en: 'Signature envelope voided', fr: 'Enveloppe de signature annulée' },
+  doclib_prod_void_failed: {
+    en: 'Could not void this envelope.',
+    fr: 'Impossible d’annuler cette enveloppe.',
+  },
+  doclib_prod_needs_approval: {
+    en: 'Approve this document before sending it for Dutiva Signature.',
+    fr: 'Approuvez ce document avant de l’envoyer pour signature Dutiva.',
+  },
+  doclib_prod_completion_title: { en: 'Completion record', fr: 'Registre de complétion' },
+  doclib_prod_download_completion: { en: 'Download record', fr: 'Télécharger le registre' },
+  doclib_prod_content_hash: { en: 'Content fingerprint', fr: 'Empreinte du contenu' },
+  doclib_prod_send_sign: { en: 'Send for signature', fr: 'Envoyer pour signature' },
+  doclib_prod_send_sign_failed: {
+    en: 'Could not create the signature envelope.',
+    fr: 'Impossible de créer l’enveloppe de signature.',
+  },
+  doclib_prod_sent_sign: { en: 'Sent for signature', fr: 'Envoyé pour signature' },
+  doclib_prod_sent_sign_emailed: {
+    en: 'Sent for signature — signing invites emailed',
+    fr: 'Envoyé pour signature — invitations envoyées par courriel',
+  },
+  doclib_prod_sent_sign_email_failed: {
+    en: 'Sent for signature, but signing invites could not be emailed.',
+    fr: 'Envoyé pour signature, mais les invitations n’ont pas pu être envoyées par courriel.',
+  },
+  doclib_prod_tab_recipients: { en: 'Recipients & signatures', fr: 'Destinataires et signatures' },
+  doclib_prod_no_recipients: {
+    en: 'No recipients yet. Send for signature to add signers.',
+    fr: 'Aucun destinataire pour l’instant. Envoyez pour signature pour ajouter des signataires.',
+  },
+  doclib_prod_create_failed: {
+    en: 'Could not save this document. Try again.',
+    fr: 'Impossible d’enregistrer ce document. Réessayez.',
+  },
+  doclib_prod_create_denied: {
+    en: 'Only organization admins can save documents to the repository.',
+    fr: 'Seuls les administrateurs de l’organisation peuvent enregistrer des documents au dépôt.',
+  },
+  doclib_prod_saving: { en: 'Saving…', fr: 'Enregistrement…' },
+})

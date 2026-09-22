@@ -1,0 +1,729 @@
+import type { Bi } from '@/i18n/core'
+import type { CardTone } from '@/features/app/advisor/types'
+
+/**
+ * Entity types for the Dutiva sample fixtures, transcribed from the design
+ * handoff prototype (`App v2.dc.html`, logic class seed builders).
+ *
+ * Display fields the prototype translates (via `frDict()` / `tr()` / inline
+ * `L(en, fr)`) are typed `Bi`. Language-neutral fields (people names, ids,
+ * raw dates like "Jul 5, 2026", numbers) stay `string` / `number`.
+ */
+
+/** Full tone ramp used by fixture data — the Advisor card ramp plus green success. */
+export type Tone = CardTone | 'success'
+
+/* ---------------------------------------------------------------- actions */
+
+/**
+ * Declarative action descriptor. Fixtures never carry `onClick` handlers —
+ * views translate these into navigation (routes from CONVENTIONS.md) or
+ * document-studio openings.
+ */
+export type FixtureAction =
+  | { kind: 'open-case'; label: Bi; target: string; primary?: boolean }
+  | { kind: 'open-employee'; label: Bi; target: string; primary?: boolean }
+  | { kind: 'open-chat'; label: Bi; target: string; primary?: boolean }
+  | { kind: 'open-compliance'; label: Bi; target?: string; primary?: boolean }
+  | { kind: 'open-view'; label: Bi; target: string; primary?: boolean }
+  | { kind: 'draft-doc'; label: Bi; target: string; primary?: boolean }
+
+export interface FixtureCitation {
+  label: Bi
+}
+
+/**
+ * Tone card as stored in fixtures — mirrors the Advisor `ToneCardData` shape
+ * (tone/title/body/citations) but declarative: no `onClick`, optional
+ * `confidence` line, actions as `FixtureAction` descriptors.
+ */
+export interface FixtureToneCard {
+  tone: Tone
+  title: Bi
+  body: Bi
+  confidence?: Bi
+  citations?: FixtureCitation[]
+  actions?: FixtureAction[]
+}
+
+/* -------------------------------------------------------------- employees */
+
+export interface EmployeeRiskFlag {
+  tone: Tone
+  title: Bi
+  body: Bi
+  /** Advisor chat thread backing this flag (prototype `risk.chatId`); null when none. */
+  chatId: string | null
+}
+
+export interface Employee {
+  /** Stable id, usable in /app/employees/:employeeId (e.g. 'e1'). */
+  id: string
+  name: string
+  initials: string
+  role: Bi
+  /** Department derived by the prototype's `deptFor(role)`. */
+  dept: Bi
+  /** Employment jurisdiction — province, territory, or Federal. */
+  jurisdiction: Bi
+  status: Bi
+  tone: Tone
+  tenure: Bi
+  insight: Bi
+  risk: EmployeeRiskFlag | null
+}
+
+export type TimelineKind =
+  'hire' | 'doc' | 'case' | 'comms' | 'compliance' | 'review' | 'comp' | 'ack' | 'wellbeing'
+
+export interface TimelineEvent {
+  date: string
+  kind: TimelineKind
+  text: Bi
+  tone?: Tone
+  /** Document template key (see documents.ts) this event opens. */
+  docKey?: string
+  /** Case id this event opens. */
+  caseId?: string
+}
+
+export type LeaveStatus = 'Taken' | 'Active' | 'Completed'
+
+export interface LeaveRecord {
+  type: Bi
+  period: Bi
+  status: LeaveStatus
+  note: Bi
+}
+
+/** Per-employee detail (demo `empDetailMap()`; nullable comp/sentiment when unknown). */
+export interface EmployeeDetail {
+  employeeId: string
+  /** Null when compensation has not been recorded for this person. */
+  salary: number | null
+  band: string
+  /** Null when no market comparator is on file. */
+  market: number | null
+  equity: string
+  startDate: string
+  /** Null when no wellbeing signal score exists. */
+  sentiment: number | null
+  timeline: TimelineEvent[]
+  /** Document template keys on file (documents.ts). */
+  docs: string[]
+  /** Case ids linked to this employee. */
+  cases: string[]
+  leave: LeaveRecord[]
+}
+
+/** One reporting branch of the org graph (prototype `buildOrgGraph()`). Matrix reporting — the same report appearing under multiple managers — is not modeled. */
+export interface OrgBranch {
+  managerId: string
+  /** Organizational area for this manager's branch — shown on the manager card, not each report's functional department. */
+  dept: Bi
+  reportIds: string[]
+}
+
+/** Pending compensation change (prototype `buildCompensationView()` changes). */
+export interface CompChange {
+  id: string
+  employeeId: string
+  title: Bi
+  detail: Bi
+  status: Bi
+  tone: Tone
+  requestedBy: string
+  note: Bi
+}
+
+/** Wellbeing support signal (prototype `supportSignals()`). */
+export interface SupportSignal {
+  id: string
+  /** null for team-level signals. */
+  employeeId: string | null
+  who: Bi
+  type: Bi
+  tone: Tone
+  source: Bi
+  confidence: Bi
+  why: Bi
+  action: Bi
+  sensitivity: Bi
+}
+
+/* ------------------------------------------------------------------ cases */
+
+export type CaseType = 'Termination' | 'Performance' | 'Accommodation' | 'Onboarding'
+
+export interface CaseStep {
+  label: Bi
+  done: boolean
+}
+
+export interface CaseFile {
+  /** Stable id, usable in /app/cases/:caseId (e.g. 'case1'). */
+  id: string
+  title: Bi
+  type: CaseType
+  typeLabel: Bi
+  empId: string
+  empName: string
+  /** Prototype geography label — rename to `jurisdiction` with fixtures/consumers/tests together. */
+  province: Bi
+  status: Bi
+  tone: Tone
+  opened: string
+  /** Machine-readable open date (YYYY-MM-DD) backing the `opened` display string. */
+  openedISO: string
+  owner: string
+  due: string
+  retention: Bi
+  legalScope?: Bi
+  /** Advisor chat thread backing this case. */
+  chatId: string
+  summary: Bi
+  steps: CaseStep[]
+}
+
+export type RiskLevel = 'High' | 'Medium' | 'Low' | 'Pending'
+
+export interface CaseRisk {
+  level: RiskLevel
+  levelLabel: Bi
+  tone: Tone
+  factors: Bi[]
+}
+
+export interface CaseRiskAxis {
+  axis: Bi
+  level: RiskLevel
+  levelLabel: Bi
+  reason: Bi
+  mitigation: Bi
+}
+
+export interface CaseNote {
+  text: Bi
+  author: string
+  time: string
+}
+
+/* ------------------------------------------------------------------ tasks */
+
+export type TaskPriority = 'high' | 'medium' | 'low'
+
+export interface Task {
+  id: string
+  title: Bi
+  due: Bi
+  priority: TaskPriority
+  done: boolean
+  /** Advisor chat (and via cases.chatId, case) this task belongs to. */
+  chatId: string
+  owner: string
+  jur: Bi
+  blocked?: Bi
+  evidence?: Bi
+}
+
+/* --------------------------------------------------------------- policies */
+
+export interface Policy {
+  id: string
+  title: Bi
+  status: Bi
+  tone: Tone
+  updated: Bi
+}
+
+/* ------------------------------------------------------------- compliance */
+
+export type ComplianceSeverity = 'High' | 'Medium' | 'Low' | 'Resolved'
+
+export interface ComplianceItem {
+  id: string
+  severity: ComplianceSeverity
+  severityLabel: Bi
+  tone: Tone
+  title: Bi
+  detail: Bi
+  /** Prototype geography label — rename to `jurisdiction` with fixtures/consumers/tests together. */
+  province: Bi
+  /** Scheduled date (YYYY-MM-DD) when the item is a dated follow-up, not a standing risk. */
+  dueISO?: string
+  /** Employees affected, when the item traces to specific people. */
+  affected?: number
+  /** Advisor chat thread this flag traces back to. */
+  chatId: string
+  citations: FixtureCitation[]
+  /** Recommended action (prototype `buildComplianceView().actionById`). */
+  action: Bi
+}
+
+export interface ComplianceCategory {
+  key: string
+  label: Bi
+  score: number
+  tone: Tone
+  open: number
+}
+
+export type ObligationStatus = 'ok' | 'progress' | 'needs' | 'overdue'
+
+export interface Obligation {
+  id: string
+  area: Bi
+  statute: Bi
+  title: Bi
+  /** Raw jurisdiction key ('Ontario' | 'Quebec' | 'Federal' …) used for filtering. */
+  jur: string
+  jurLabel: Bi
+  due: Bi
+  /** Machine-readable due date (YYYY-MM-DD) backing the `due` display string. */
+  dueISO: string
+  recurrence: Bi
+  owner: string
+  status: ObligationStatus
+  dueSoon?: boolean
+  /** Employees affected, when the obligation traces to specific people. */
+  affected?: number
+  evidence: Bi
+}
+
+export interface WatchlistItem {
+  title: Bi
+  status: Bi
+  tone: Tone
+  note: Bi
+}
+
+/* -------------------------------------------------------------- analytics */
+
+export interface JurisdictionHeadcount {
+  /** Stable key ('ON', 'BC', …, 'Federal'). */
+  key: string
+  label: Bi
+  value: number
+}
+
+export interface ScoreHistoryPoint {
+  /** First day of the month (YYYY-MM-01); views format the label per locale. */
+  monthISO: string
+  score: number
+}
+
+export interface PolicyAcknowledgmentCampaign {
+  /** Policy register row the campaign belongs to. */
+  policyId: string
+  title: Bi
+  signed: number
+  total: number
+}
+
+/**
+ * A dated per-person record with an expiry — a certification/training
+ * credential or an employee document (work permit, visa, medical
+ * certificate). `employeeId` is null when the person belongs to the wider
+ * 82-person demo scenario rather than the individually modelled roster (same
+ * pattern as task owners like Marcus Bell).
+ */
+export interface ExpiryRecord {
+  id: string
+  employeeId: string | null
+  employeeName: string
+  name: Bi
+  jurisdiction: Bi
+  expiryISO: string
+}
+
+export interface ServiceMilestoneRecord {
+  id: string
+  employeeId: string | null
+  employeeName: string
+  role: Bi
+  jurisdiction: Bi
+  endISO: string
+  /** Whether a milestone-review task already exists for this person. */
+  reviewTaskCreated: boolean
+}
+
+export interface LeaveOverviewRecord {
+  id: string
+  employeeId: string | null
+  employeeName: string
+  type: Bi
+  /** Statutorily protected leave (reinstatement-sensitive). */
+  protected: boolean
+  /** Scheduled return (YYYY-MM-DD); null for ongoing arrangements. */
+  returnISO: string | null
+  /** Status-only context (e.g. a scheduled review) — never medical detail. */
+  note?: Bi
+}
+
+export interface JurisdictionScore {
+  key: string
+  label: Bi
+  score: number
+}
+
+/** Generic month/value series (headcount history and friends). */
+export interface TrendPoint {
+  monthISO: string
+  value: number
+}
+
+export interface TurnoverStat {
+  /** Rolling 12-month turnover, percent. */
+  ratePct: number
+  /** The same rolling rate one month earlier, for the delta. */
+  priorRatePct: number
+  priorMonthISO: string
+}
+
+/* ---------------------------------------------------------- communications */
+
+export interface Communication {
+  id: string
+  title: Bi
+  audience: Bi
+  /** Prototype geography label — rename to `jurisdiction` with fixtures/consumers/tests together. */
+  province: Bi
+  status: Bi
+  tone: Tone
+  updated: Bi
+  note: Bi
+}
+
+/** Advisor review dimensions on a communication (prototype `dims(...)`). */
+export interface CommunicationReview {
+  tone: boolean
+  legal: boolean
+  clarity: boolean
+  policy: boolean
+}
+
+/** Extra per-communication data from the prototype's `buildCommunicationsView()`. */
+export interface CommunicationDetail {
+  communicationId: string
+  audienceType: Bi
+  bilingual: Bi
+  linkedTo: Bi | null
+  /** Sensitive sends open a review gate before "Mark reviewed & send". */
+  sensitive: boolean
+  review: CommunicationReview
+  gateNote: Bi | null
+}
+
+/* ------------------------------------------------------------------ chats */
+
+export type ChatBucket = 'today' | 'week' | 'older'
+
+export type ChatFlowKey =
+  'termination' | 'hiring' | 'policy' | 'performance' | 'accommodation' | 'onboarding'
+
+export interface ChatMessageFixture {
+  /** Prototype message id ('m1' …). */
+  id: string
+  role: 'user' | 'advisor'
+  text?: Bi
+  /** Structured user answers rendered as chips. */
+  userChips?: Bi[]
+  /** Advisor reasoning trace lines. */
+  reasoning?: Bi[]
+  cards?: FixtureToneCard[]
+  /** Document template keys (documents.ts) offered as generate chips. */
+  docs?: string[]
+  /** Follow-up chip labels — keys into `followupReplies` (chats.ts). */
+  followups?: string[]
+}
+
+export interface ChatThread {
+  /** Prototype chat id ('c1' …). */
+  id: string
+  title: Bi
+  folder: Bi | null
+  pinned: boolean
+  time: Bi
+  bucket: ChatBucket
+  flowKey: ChatFlowKey
+  messages: ChatMessageFixture[]
+}
+
+/** Canned single-turn Advisor reply for a topic (prototype `buildLightFlows()`). */
+export interface LightFlow {
+  text: Bi
+  reasoning?: Bi[]
+  cards?: FixtureToneCard[]
+  docs?: string[]
+  followups?: string[]
+}
+
+/** Canned reply to a follow-up chip (prototype `buildFollowupReplies()`). */
+export interface FollowupReply {
+  /** Chip label shown to the user (EN string doubles as the lookup key). */
+  label: Bi
+  text: Bi
+  reasoning?: Bi[]
+  cards?: FixtureToneCard[]
+  docs?: string[]
+  /** Selecting this reply also logs an escalation task + toast in the prototype. */
+  isEscalation?: boolean
+}
+
+/* ---------------------------------------------------------- notifications */
+
+export interface Notification {
+  id: string
+  text: Bi
+  time: Bi
+  unread: boolean
+}
+
+/* -------------------------------------------------------------- documents */
+
+/** Document Studio metadata rows (prototype `docMetaFor(title)`). */
+export interface DocMeta {
+  link: Bi
+  jur: Bi
+  governing: Bi
+  template: string
+  created: Bi
+  createdBy: Bi
+  reviewedBy: Bi
+  legalReview: Bi
+  retention: Bi
+  assumptions: Bi
+  missing: Bi
+}
+
+export interface DocumentTemplate {
+  /** Stable key — the prototype's EN title, used everywhere as the cross-reference id. */
+  key: string
+  title: Bi
+  category: Bi
+  sections: Bi[]
+  /** Matches the prototype's `isHighRiskDoc()` regex — export/signature gate applies. */
+  highRisk: boolean
+  /** Per-document overrides merged over `docMetaDefaults`. */
+  meta?: Partial<DocMeta>
+}
+
+/* -------------------------------------------------------------- knowledge */
+
+export interface KnowledgeItem {
+  id: string
+  title: Bi
+  tag: Bi
+  /** Qualified Advisor rail intro when the article is opened from the Knowledge Base. */
+  summary: Bi
+}
+
+/* --------------------------------------------------------------- calendar */
+
+export interface CalendarEvent {
+  /** Stable key for React lists. */
+  id: string
+  /** Day of the month (July 2026). */
+  day: number
+  /** Short date chip, e.g. "Jul 8" / "8 juil.". */
+  dateLabel: Bi
+  label: Bi
+  tone: 'info' | 'warning'
+}
+
+export interface CalendarMonth {
+  year: number
+  /** 0-based month index (6 = July). */
+  monthIndex: number
+  monthLabel: Bi
+  /** Day highlighted as "today" in the prototype. */
+  todayDay: number
+}
+
+/* ---------------------------------------------------------------- memory */
+
+/**
+ * Advisor Memory model (`Advisor Memory.dc.html`): three scopes, two
+ * confidence states only — Confirmed (authoritative source) vs Inferred
+ * (Advisor-derived, never treated as fact until a human confirms). Every
+ * fact carries provenance and a visibility scope. Memory supplies facts
+ * only — risk, legal basis and citations are recomputed fresh every turn.
+ */
+
+export type MemoryScope = 'person' | 'case' | 'thread'
+
+export type MemoryConfidence = 'confirmed' | 'inferred'
+
+export type MemorySourceType = 'hris' | 'document' | 'chat' | 'manual' | 'inference' | 'case'
+
+/** Source types that can affirm a confirmed fact — excludes Advisor inference alone. */
+export type MemoryAuthoritativeSourceType = Exclude<MemorySourceType, 'inference'>
+
+/** Who can see a fact: the HR team, case participants + counsel, or restricted. */
+export type MemoryVisibility = 'hr' | 'case' | 'restricted'
+
+export type MemoryCategory =
+  'employment' | 'compensation' | 'matter' | 'record' | 'note' | 'case' | 'conversation'
+
+/**
+ * Memory lifecycle status. An Advisor inference is never a confirmed fact:
+ * it enters as `proposed`/`needs_review` and only reaches `confirmed` after a
+ * human reviews it. `expired` and `removed` are terminal-ish (removed records
+ * stay unavailable to Advisor retrieval; expired ones await disposition).
+ *
+ * Frontend/domain abstraction only — the production table (migration 0086)
+ * still derives status from `confidence` + `forgotten_at`. New columns are a
+ * TODO; see `productionApi.ts`.
+ */
+export type MemoryStatus = 'proposed' | 'needs_review' | 'confirmed' | 'expired' | 'removed'
+
+/**
+ * What kind of record a memory is. HR investigations must not collapse
+ * allegations or opinions into established employee facts — an `allegation`
+ * stays an allegation (with its source and case relationship) until a finding
+ * or decision is recorded separately.
+ */
+export type MemoryClassification =
+  | 'fact'
+  | 'preference'
+  | 'allegation'
+  | 'opinion'
+  | 'evidence'
+  | 'finding'
+  | 'decision'
+  | 'contextual'
+
+/** How the memory entered the system. */
+export type MemoryOrigin = 'explicit' | 'inferred' | 'manual'
+
+/**
+ * Sensitivity tier. `restricted` records (medical, accommodation, protected
+ * ground, investigation, harassment, disciplinary, compensation, financial,
+ * highly personal) are stored but are not automatically usable by Advisor and
+ * carry need-to-know access + extra auditability.
+ */
+export type MemorySensitivity = 'standard' | 'restricted'
+
+/**
+ * Retention category — drives the retention schedule. Category-aware, not a
+ * blanket seven-year rule: statutory minimum, organization policy, Dutiva
+ * default, case-specific, and legal hold are distinct concepts.
+ */
+export type MemoryRetentionCategory =
+  | 'advisor_conversation'
+  | 'employee_preference'
+  | 'employment_record'
+  | 'payroll_tax'
+  | 'investigation'
+  | 'wellbeing_personal'
+  | 'custom'
+
+/** When and through which source a confirmed fact was last affirmed. */
+export interface MemoryConfirmation {
+  /** ISO date (YYYY-MM-DD) of the confirmation event. */
+  at: string
+  source: { type: MemoryAuthoritativeSourceType; detail: Bi }
+}
+
+/** Legal hold on a memory — pauses scheduled expiration/deletion. Role-restricted. */
+export interface MemoryLegalHold {
+  reason: Bi
+  /** ISO date (YYYY-MM-DD) the hold was placed. */
+  placedAt: string
+  /** Actor who placed the hold (name or id label). */
+  placedBy: string
+}
+
+/**
+ * Retrieval scope — where Advisor is permitted to use a memory. Distinct from
+ * the subject (who/what the memory is about) and the source (where it came
+ * from). A case-scoped allegation about John must not leak into unrelated
+ * general HR queries about John.
+ *
+ * Frontend/domain abstraction — the production table (migration 0086) does
+ * not yet persist this; see `productionApi.ts`.
+ */
+export type MemoryRetrievalScopeType = 'workspace' | 'case' | 'conversation' | 'workflow'
+
+export interface MemoryRetrievalScope {
+  type: MemoryRetrievalScopeType
+  /** Entity id when the scope is case/conversation/workflow-specific. */
+  id?: string | null
+}
+
+export interface MemoryFact {
+  id: string
+  scope: MemoryScope
+  /**
+   * Scope target: person → employee id (`e1`), case → case id (`case1`),
+   * thread → chat id (`c1`) — the same ids the app's routes use.
+   */
+  entityId: string
+  category: MemoryCategory
+  statement: Bi
+  confidence: MemoryConfidence
+  /** Source that first established this memory entry. */
+  source: { type: MemorySourceType; detail: Bi }
+  /** ISO date when Advisor Memory learned or ingested this fact. */
+  learnedAt: string
+  /**
+   * ISO date when the underlying fact became effective, when distinct from
+   * {@link learnedAt} (e.g. hire date vs HRIS sync date). Omitted when N/A.
+   */
+  effectiveAt?: string | null
+  /** Provenance of the latest confirmation; null while still inferred only. */
+  confirmation: MemoryConfirmation | null
+  visibility: MemoryVisibility
+  /** Access-controlled by default (compensation, health). */
+  sensitive: boolean
+
+  /* ---- New domain fields (frontend abstractions; see file header) ---- */
+
+  /** Lifecycle status. When absent, derived from `confidence` for back-compat. */
+  status?: MemoryStatus
+  /** What kind of record this is. Defaults to `fact` for legacy rows. */
+  classification?: MemoryClassification
+  /** How the memory entered the system. Defaults from `source.type`. */
+  origin?: MemoryOrigin
+  /** Sensitivity tier. Derived from `sensitive`/`visibility` when absent. */
+  sensitivity?: MemorySensitivity
+  /**
+   * Whether Advisor may retrieve this memory into context. A record may be
+   * stored without being Advisor-usable (restricted, legal-hold, disabled).
+   * Distinct from whether it is stored at all.
+   */
+  advisorUsable?: boolean
+  /** Retention category driving the retention schedule. */
+  retentionCategory?: MemoryRetentionCategory
+  /** ISO date the memory should next be reviewed. */
+  reviewDate?: string | null
+  /** ISO date the memory is scheduled to expire (paused by legal hold). */
+  expiryDate?: string | null
+  /** ISO date the memory was last verified against its source. */
+  lastVerifiedAt?: string | null
+  /** Legal hold state — when set, scheduled expiration/deletion is paused. */
+  legalHold?: MemoryLegalHold | null
+  /** Purpose for which the memory is held (purpose limitation). */
+  purpose?: Bi | null
+  /** Jurisdiction/applicability label (e.g. 'ON', 'QC', 'federal'). */
+  jurisdiction?: string | null
+  /** Who proposed the memory (for Advisor-proposed records). */
+  proposedBy?: string | null
+  /** Advisor confidence score 0–1 for proposed memories, when available. */
+  confidenceScore?: number | null
+  /** Source excerpt / quote backing the memory, when available. */
+  sourceExcerpt?: Bi | null
+  /** Creator of the record (name or id label). */
+  creator?: string | null
+  /** Who confirmed the record, when distinct from {@link MemoryConfirmation}. */
+  confirmedBy?: string | null
+  /** Free-form tags for search. */
+  tags?: Bi[] | null
+  /**
+   * Where Advisor may retrieve this memory. When absent, defaults to
+   * `workspace` for non-restricted records. Case-scoped records (allegations,
+   * investigation material) should set this to `{ type: 'case', id }` so they
+   * do not leak into unrelated contexts.
+   */
+  retrievalScope?: MemoryRetrievalScope | null
+}

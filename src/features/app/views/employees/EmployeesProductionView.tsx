@@ -1,0 +1,432 @@
+import { useCallback, useEffect, useState } from 'react'
+import type { SubmitEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { Plus, Trash2, Upload, Users } from 'lucide-react'
+import { useI18n } from '@/i18n/context'
+import { pick } from '@/i18n/core'
+import { employeesMessages as M } from '@/i18n/messages/employees'
+import { bulkImportMessages as B } from '@/i18n/messages/bulkImport'
+import { statusChipClass } from '@/components/chips'
+import { useToasts } from '@/features/app/toasts/toastsContext'
+import { useWorkspaceMode } from '@/features/app/workspaceMode/workspaceModeContext'
+import { ProductionEmptyState } from '@/features/app/workspaceMode/ProductionEmptyState'
+import { useOpenCreateFormFromQuery } from '@/features/app/workspaceMode/useOpenCreateFormFromQuery'
+import { BulkImportWizard } from '@/features/app/bulkImport/BulkImportWizard'
+import { createEmployeeBulkImportAdapter } from './bulkImport/employeeAdapter'
+import {
+  EMPLOYMENT_JURISDICTIONS,
+  addEmployee,
+  listEmployees,
+  removeEmployee,
+} from './productionApi'
+import type {
+  ProductionEmployee,
+  ProductionEmployeeStatus,
+  ProductionEmploymentType,
+} from './productionApi'
+import { AppPage } from '@/features/app/shell/AppPage'
+
+/**
+ * Employees roster in production mode — the first module on real
+ * persistence (public.employees, org-scoped RLS). Deliberately leaner than
+ * the fixture roster: a list + add/remove. Org chart, filters, profiles and
+ * Advisor hooks arrive as the real data model grows to support them.
+ */
+
+const STATUS_LABEL: Record<ProductionEmployeeStatus, (typeof M)[keyof typeof M]> = {
+  active: M.employees_prod_status_active,
+  on_leave: M.employees_prod_status_on_leave,
+  terminated: M.employees_prod_status_terminated,
+}
+
+const STATUS_TONE: Record<ProductionEmployeeStatus, 'success' | 'warning' | 'neutral'> = {
+  active: 'success',
+  on_leave: 'warning',
+  terminated: 'neutral',
+}
+
+const initialsOf = (name: string): string =>
+  name
+    .split(' ')
+    .map((w) => w.charAt(0))
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
+
+const inputClass =
+  'w-full rounded-[10px] border border-border bg-surface px-[12px] py-[9px] font-sans text-[13.5px] text-text'
+const labelClass = 'mb-[4px] block text-[12px] font-semibold text-text-3'
+
+const EMPLOYMENT_TYPES: ProductionEmploymentType[] = [
+  'full_time',
+  'part_time',
+  'contract',
+  'intern',
+]
+
+const EMPLOYMENT_TYPE_LABELS: Record<ProductionEmploymentType, keyof typeof M> = {
+  full_time: 'employees_employment_type_full_time',
+  part_time: 'employees_employment_type_part_time',
+  contract: 'employees_employment_type_contract',
+  intern: 'employees_employment_type_intern',
+}
+
+const EMPTY_FORM = {
+  name: '',
+  title: '',
+  email: '',
+  jurisdiction: 'Ontario',
+  startDate: '',
+  managerId: '',
+  department: '',
+  employmentType: '' as ProductionEmploymentType | '',
+  phone: '',
+}
+
+export function EmployeesProductionView() {
+  const { x, lang } = useI18n()
+  const { showToast } = useToasts()
+  const { organizationId, isOrgAdmin } = useWorkspaceMode()
+
+  const [rows, setRows] = useState<ProductionEmployee[] | null>(null)
+  const [loadFailed, setLoadFailed] = useState(false)
+  const { formOpen, setFormOpen } = useOpenCreateFormFromQuery(isOrgAdmin)
+  const [form, setForm] = useState(EMPTY_FORM)
+  const [saving, setSaving] = useState(false)
+  const [showBulkImport, setShowBulkImport] = useState(false)
+
+  const employeeAdapter = createEmployeeBulkImportAdapter((fields) => {
+    if (!organizationId) throw new Error('No organization selected')
+    return addEmployee(organizationId, fields).then((emp) => {
+      setRows((prev) => [...(prev ?? []), emp].sort((a, b) => a.name.localeCompare(b.name)))
+      return emp
+    })
+  })
+
+  const load = useCallback(async () => {
+    if (!organizationId) return
+    setLoadFailed(false)
+    try {
+      setRows(await listEmployees(organizationId))
+    } catch {
+      setRows([])
+      setLoadFailed(true)
+    }
+  }, [organizationId])
+
+  useEffect(() => {
+    void load()
+  }, [load])
+
+  /* The org is provisioned when the admin first switches to production —
+     null here means that bootstrap failed or is still resolving. */
+  if (!organizationId) {
+    return <ProductionEmptyState title={x(M.employees_prod_empty_title)} />
+  }
+
+  const onSubmit = async (e: SubmitEvent) => {
+    e.preventDefault()
+    if (!form.name.trim() || saving) return
+    setSaving(true)
+    try {
+      const added = await addEmployee(organizationId, {
+        ...form,
+        name: form.name.trim(),
+        managerId: form.managerId || undefined,
+        employmentType: form.employmentType || undefined,
+      })
+      setRows((prev) => [...(prev ?? []), added].sort((a, b) => a.name.localeCompare(b.name)))
+      setForm(EMPTY_FORM)
+      setFormOpen(false)
+      showToast(M.employees_prod_added, 'ok')
+    } catch {
+      showToast(M.employees_prod_add_failed, 'info')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const onRemove = async (emp: ProductionEmployee) => {
+    try {
+      await removeEmployee(emp.id)
+      setRows((prev) => (prev ?? []).filter((r) => r.id !== emp.id))
+      showToast(M.employees_prod_removed, 'ok')
+    } catch {
+      showToast(M.employees_prod_remove_failed, 'info')
+    }
+  }
+
+  const count = rows?.length ?? 0
+  const countLabel = `${count} ${x(count === 1 ? M.employees_prod_count_one : M.employees_prod_count_many)}`
+
+  return (
+    <AppPage width="default">
+      <div className="mb-[18px] flex flex-wrap items-center justify-between gap-[16px]">
+        <div className="text-[13px] text-text-muted">
+          {rows === null ? x(M.employees_prod_loading) : countLabel}
+        </div>
+        {!formOpen && isOrgAdmin && (
+          <div className="flex items-center gap-[8px]">
+            <button
+              type="button"
+              onClick={() => setShowBulkImport(true)}
+              className="flex cursor-pointer items-center gap-[7px] rounded-[8px] border border-border bg-surface px-[14px] py-[8px] font-sans text-[13px] font-semibold text-text"
+            >
+              <Upload size={14} strokeWidth={2} aria-hidden="true" />
+              {x(B.bulk_import_title)}
+            </button>
+            <button
+              type="button"
+              onClick={() => setFormOpen(true)}
+              className="flex cursor-pointer items-center gap-[7px] rounded-[8px] border-none bg-navy px-[14px] py-[8px] font-sans text-[13px] font-semibold text-white"
+            >
+              <Plus size={14} strokeWidth={2} aria-hidden="true" />
+              {x(M.employees_prod_add)}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {showBulkImport && (
+        <BulkImportWizard adapter={employeeAdapter} onClose={() => setShowBulkImport(false)} />
+      )}
+
+      {loadFailed && (
+        <div className="mb-[14px] flex items-center justify-between gap-[12px] rounded-[11px] border border-risk-border bg-risk-bg px-[16px] py-[12px]">
+          <span className="text-[13px] text-risk-fg">{x(M.employees_prod_error)}</span>
+          <button
+            type="button"
+            onClick={() => void load()}
+            className="cursor-pointer rounded-[8px] border-none bg-surface px-[12px] py-[6px] font-sans text-[12px] font-bold text-text"
+          >
+            {x(M.employees_prod_retry)}
+          </button>
+        </div>
+      )}
+
+      {formOpen && (
+        <form
+          onSubmit={(e) => void onSubmit(e)}
+          className="mb-[18px] rounded-[12px] border border-border bg-surface px-[20px] py-[18px]"
+        >
+          <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2">
+            <div>
+              <label htmlFor="emp-name" className={labelClass}>
+                {x(M.employees_prod_name)}
+              </label>
+              <input
+                id="emp-name"
+                required
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="emp-title" className={labelClass}>
+                {x(M.employees_prod_title)}
+              </label>
+              <input
+                id="emp-title"
+                value={form.title}
+                onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="emp-email" className={labelClass}>
+                {x(M.employees_prod_email)}
+              </label>
+              <input
+                id="emp-email"
+                type="email"
+                value={form.email}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="emp-jurisdiction" className={labelClass}>
+                {x(M.employees_prod_jurisdiction)}
+              </label>
+              <select
+                id="emp-jurisdiction"
+                value={form.jurisdiction}
+                onChange={(e) => setForm((f) => ({ ...f, jurisdiction: e.target.value }))}
+                className={inputClass}
+              >
+                {EMPLOYMENT_JURISDICTIONS.map((jur) => (
+                  <option key={jur.en} value={jur.en}>
+                    {pick(jur, lang)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="emp-start" className={labelClass}>
+                {x(M.employees_prod_start_date)}
+              </label>
+              <input
+                id="emp-start"
+                type="date"
+                value={form.startDate}
+                onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="emp-department" className={labelClass}>
+                {x(M.employees_prod_department)}
+              </label>
+              <input
+                id="emp-department"
+                value={form.department}
+                onChange={(e) => setForm((f) => ({ ...f, department: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="emp-employment-type" className={labelClass}>
+                {x(M.employees_prod_employment_type)}
+              </label>
+              <select
+                id="emp-employment-type"
+                value={form.employmentType}
+                onChange={(e) =>
+                  setForm((f) => ({
+                    ...f,
+                    employmentType: e.target.value as ProductionEmploymentType | '',
+                  }))
+                }
+                className={inputClass}
+              >
+                <option value="">{x(M.employees_prod_employment_type_unset)}</option>
+                {EMPLOYMENT_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {x(M[EMPLOYMENT_TYPE_LABELS[t]])}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="emp-phone" className={labelClass}>
+                {x(M.employees_prod_phone)}
+              </label>
+              <input
+                id="emp-phone"
+                type="tel"
+                value={form.phone}
+                onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                className={inputClass}
+              />
+            </div>
+            {(rows?.length ?? 0) > 0 && (
+              <div>
+                <label htmlFor="emp-manager" className={labelClass}>
+                  {x(M.employees_manager_label)}
+                </label>
+                <select
+                  id="emp-manager"
+                  value={form.managerId}
+                  onChange={(e) => setForm((f) => ({ ...f, managerId: e.target.value }))}
+                  className={inputClass}
+                >
+                  <option value="">{x(M.employees_prod_manager_unset)}</option>
+                  {(rows ?? []).map((row) => (
+                    <option key={row.id} value={row.id}>
+                      {row.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+          <div className="mt-[16px] flex gap-[8px]">
+            <button
+              type="submit"
+              disabled={saving}
+              className="cursor-pointer rounded-[8px] border-none bg-navy px-[14px] py-[8px] font-sans text-[13px] font-semibold text-white disabled:opacity-60"
+            >
+              {x(M.employees_prod_save)}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setFormOpen(false)
+                setForm(EMPTY_FORM)
+              }}
+              className="cursor-pointer rounded-[8px] border border-border bg-surface px-[14px] py-[8px] font-sans text-[13px] font-semibold text-text"
+            >
+              {x(M.employees_prod_cancel)}
+            </button>
+          </div>
+        </form>
+      )}
+
+      {rows !== null && rows.length === 0 && !loadFailed && !formOpen && (
+        <div className="rounded-[12px] border border-border bg-surface px-[24px] py-[40px] text-center">
+          <div className="mx-auto mb-[14px] flex h-[44px] w-[44px] items-center justify-center rounded-[12px] bg-inset">
+            <Users size={20} strokeWidth={1.7} className="text-text-muted" aria-hidden="true" />
+          </div>
+          <div className="mb-[6px] text-[15px] font-semibold text-text">
+            {x(M.employees_prod_empty_title)}
+          </div>
+          <p className="m-0 mb-[16px] text-[13px] text-text-muted">
+            {x(M.employees_prod_empty_body)}
+          </p>
+          {isOrgAdmin && (
+            <button
+              type="button"
+              onClick={() => setFormOpen(true)}
+              className="inline-flex cursor-pointer items-center gap-[7px] rounded-[8px] border-none bg-navy px-[14px] py-[8px] font-sans text-[13px] font-semibold text-white"
+            >
+              <Plus size={14} strokeWidth={2} aria-hidden="true" />
+              {x(M.employees_prod_add)}
+            </button>
+          )}
+        </div>
+      )}
+
+      {rows !== null && rows.length > 0 && (
+        <div className="overflow-hidden rounded-[12px] border border-border bg-surface">
+          {rows.map((emp) => (
+            <div
+              key={emp.id}
+              className="flex items-center gap-[12px] border-t border-inset px-[18px] py-[13px] first:border-t-0"
+            >
+              <div className="flex h-[32px] w-[32px] shrink-0 items-center justify-center rounded-full bg-accent-soft text-[12px] font-bold text-accent">
+                {initialsOf(emp.name)}
+              </div>
+              <Link to={`/app/employees/${emp.id}`} className="min-w-0 flex-1 hover:opacity-80">
+                <div className="truncate text-[13.5px] font-semibold text-text">{emp.name}</div>
+                <div className="truncate text-[12px] text-text-muted">
+                  {[
+                    emp.title,
+                    emp.department,
+                    emp.employmentType ? x(M[EMPLOYMENT_TYPE_LABELS[emp.employmentType]]) : null,
+                    emp.jurisdiction,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
+                </div>
+              </Link>
+              <span className={statusChipClass(STATUS_TONE[emp.status])}>
+                {x(STATUS_LABEL[emp.status])}
+              </span>
+              {isOrgAdmin && (
+                <button
+                  type="button"
+                  onClick={() => void onRemove(emp)}
+                  aria-label={`${x(M.employees_prod_remove)} — ${emp.name}`}
+                  className="cursor-pointer border-none bg-transparent p-[6px] text-text-muted hover:text-risk-fg"
+                >
+                  <Trash2 size={15} strokeWidth={1.7} aria-hidden="true" />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </AppPage>
+  )
+}

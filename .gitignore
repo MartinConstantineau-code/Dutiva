@@ -1,0 +1,47 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+coverage
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# local env (Supabase keys are publishable, but keep the pattern hygienic)
+.env
+.env.*
+!.env.example
+
+# Ad-hoc local scripts (e.g. one-off scans) — never commit
+.tmp-*
+
+.vercel
+
+# Client source maps, relocated out of dist/ by scripts/relocate-sourcemaps.mjs.
+# Kept only to symbolicate error-report stack traces; never served, never committed.
+sourcemaps
+
+# Playwright e2e artifacts (see playwright.config.ts)
+test-results
+playwright-report
+blob-report
+playwright/.cache
+e2e/.auth
+.playwright-mcp

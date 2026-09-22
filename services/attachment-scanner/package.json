@@ -1,0 +1,16 @@
+{
+  "name": "attachment-scanner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ClamAV scan endpoint for support attachments (SUPPORT_ATTACHMENT_SCAN_URL)",
+  "//": "type=commonjs is deliberate and load-bearing. The repo root sets type=module, and Node resolves module type from the nearest package.json — so without this, `node services/attachment-scanner/server.js` fails on require(). In the container it happens to work because /app has no package.json, but relying on an absent file is not a contract.",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "verify": "node harness.cjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

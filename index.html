@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-CA" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- PNG/ICO only: the SVG tile's nested leaf PNG is ignored in favicons. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/icon-app-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/brand/icon-app-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/brand/icon-app-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/brand/icon-app-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/apple-touch-icon.png" />
+    <!-- viewport-fit=cover is what makes env(safe-area-inset-*) resolve to real
+         values instead of 0 on notched iOS devices; the mobile bottom nav pads
+         itself with the bottom inset. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script src="/bootstrap-auth.js"></script>
+    <link rel="manifest" href="/site.webmanifest" />
+    <!-- Safari tints its status/toolbar area with this. A single static value
+         painted dark chrome around light pages, so scope the pair to the OS
+         preference; the bootstrap script below re-points both at the resolved
+         theme, which is what wins when a persisted choice disagrees. -->
+    <meta name="theme-color" content="#f6f2e9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060f1e" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="Dutiva — AI-assisted, jurisdiction-aware HR compliance for Canadian employers. Bilingual EN/FR."
+    />
+    <title>Dutiva — HR compliance for Canadian employers</title>
+    <script src="/bootstrap-theme.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

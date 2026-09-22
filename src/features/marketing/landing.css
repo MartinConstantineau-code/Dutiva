@@ -1,0 +1,95 @@
+/* ── Landing page — local tokens & scroll behaviour ───────────────────────────
+   The prototype (`Landing Page (redesign) v2.dc.html`) declares app-accurate
+   Advisor chat tokens in its head styles so the hero demo card and the
+   workflow example mirror the real workspace's navy / risk-tier system.
+   Ported verbatim, scoped to the marketing surface so the shared Tailwind
+   utilities (bg-navy, bg-risk-bg, text-ok-fg, …) resolve on this page too. */
+
+.surface-marketing {
+  --navy: #4a7ab8;
+  --risk-bg: rgba(220, 90, 80, 0.15);
+  --risk-border: rgba(220, 90, 80, 0.34);
+  --risk-fg: #f0a9a0;
+  --warn-bg: rgba(214, 150, 60, 0.15);
+  --warn-border: rgba(214, 150, 60, 0.34);
+  --warn-fg: #e8c07a;
+  --ok-bg: rgba(70, 180, 120, 0.15);
+  --ok-border: rgba(70, 180, 120, 0.32);
+  --ok-fg: #6fd3a0;
+}
+
+[data-theme='light'] .surface-marketing {
+  --navy: #1c3a66;
+  --risk-bg: #f8e9e7;
+  --risk-border: #e7c7c3;
+  --risk-fg: #8a3030;
+  --warn-bg: #fceedd;
+  --warn-border: #e9cb99;
+  --warn-fg: #8a5a22;
+  --ok-bg: #e7f1ec;
+  --ok-border: #b7d9c7;
+  --ok-fg: #2f6a4f;
+}
+
+.surface-marketing ::selection {
+  background: rgba(var(--dutiva-teal-bright-rgb), 0.25);
+}
+[data-theme='light'] .surface-marketing ::selection {
+  background: rgba(var(--dutiva-teal-rgb), 0.2);
+}
+
+/* Prototype: html { scroll-behavior: smooth } — gated on motion preference. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.surface-marketing) {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Mobile layout utilities (marketing surface) ─────────────────────────── */
+
+/* Auto-fit grids whose min track would clip on 320px phones when paired with
+   html { overflow-x: clip }. Cap each floor at 100% of the container. */
+.marketing-auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+.marketing-auto-grid--360 {
+  grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr));
+}
+.marketing-auto-grid--300 {
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+.marketing-auto-grid--260 {
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+}
+.marketing-auto-grid--240 {
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+}
+.marketing-auto-grid--230 {
+  grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+}
+.marketing-auto-grid--220 {
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+.marketing-auto-grid--150 {
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+}
+.marketing-auto-grid--140 {
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+}
+.marketing-auto-grid--280 {
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+/* Landing workspace preview — scale the analytics score on narrow viewports. */
+.landing-score-hero .font-display {
+  font-size: clamp(2rem, 10vw, 2.875rem);
+}
+
+/* Keep fixed consent chrome from covering the last lines of page content. */
+@media (max-width: 640px) {
+  body.consent-banner-open .surface-marketing main,
+  body.consent-banner-open .surface-marketing footer {
+    padding-bottom: 11rem;
+  }
+}
