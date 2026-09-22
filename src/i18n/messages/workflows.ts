@@ -1,0 +1,51 @@
+﻿import { defineMessages } from '../core'
+
+/**
+ * Workflows view chrome — transcribed from the prototype's
+ * `buildWorkflowsView()` (App v2.dc.html 4888–4903) and
+ * `buildTerminationMap()` (4857–4886). EN/FR verbatim from the prototype.
+ */
+export const workflowsMessages = defineMessages({
+  workflows_title: { en: 'Workflows', fr: 'Processus' },
+  workflows_sub: {
+    en: 'Three ways to move work: Ask the Advisor for judgment calls, run a guided process or calculator here, or create the letter from Templates.',
+    fr: 'Trois façons d’avancer : demandez au Conseiller pour le jugement, lancez un processus guidé ou un calculateur ici, ou créez la lettre à partir des Modèles.', // [FR self-authored]
+  },
+  workflows_prod_intro: {
+    en: 'Calculators and process guides above are live in production. The in-flight list, termination map, and start-a-workflow catalogue are Northgate demo fixtures — switch to Demo in Settings to explore them.',
+    fr: 'Les calculateurs et guides ci-dessus sont actifs en production. La liste en cours, la carte de cessation et le catalogue de démarrage sont des données d’exemple Northgate — passez en mode Démo dans les paramètres pour les explorer.', // [FR self-authored]
+  },
+  workflows_upgrade_starter: {
+    en: 'Included on Starter and above.',
+    fr: 'Inclus dans Démarrage et les forfaits supérieurs.', // [FR self-authored]
+  },
+  workflows_inflight_title: { en: 'In flight', fr: 'En cours' },
+  workflows_start_title: { en: 'Start a workflow', fr: 'Démarrer un processus' },
+  /* Tile badge when the catalogue entry opens a real guided flow rather than
+     an Advisor conversation. */
+  workflows_guided: { en: 'Guided', fr: 'Guidé' }, // [FR self-authored]
+  workflows_next: { en: 'Next', fr: 'Prochaine étape' },
+  workflows_continue: { en: 'Continue', fr: 'Continuer' },
+  workflows_flagship_eyebrow: { en: 'Flagship workflow', fr: 'Processus phare' },
+  workflows_flagship_title: {
+    en: 'Termination — Jordan Mensah',
+    fr: 'Licenciement — Jordan Mensah',
+  },
+  workflows_flagship_sub: {
+    en: 'Ontario · step 4 of 9 · Advisor coordinates every stage, document, and approval',
+    fr: 'Ontario · étape 4 sur 9 · le Conseiller coordonne chaque étape, document et approbation',
+  },
+  workflows_flagship_collapse: { en: 'Collapse', fr: 'Réduire' },
+  workflows_flagship_expand: { en: 'View all 9 stages', fr: 'Voir les 9 étapes' },
+  workflows_flagship_note: {
+    en: 'Compliance-oriented guidance — legal review recommended at the flagged stages. Dutiva does not provide legal advice.',
+    fr: 'Guidance axée sur la conformité — examen juridique recommandé aux étapes signalées. Dutiva ne fournit pas d’avis juridiques.',
+  },
+  workflows_flagship_cta: { en: 'Continue this workflow', fr: 'Continuer ce processus' },
+  workflows_chip_done: { en: 'Done', fr: 'Fait' },
+  workflows_chip_in_progress: { en: 'In progress', fr: 'En cours' },
+  workflows_chip_partial: { en: '2 of 4 drafted', fr: '2 doc. sur 4' },
+  workflows_chip_waiting: { en: 'Waiting', fr: 'En attente' },
+  workflows_chip_upcoming: { en: 'Upcoming', fr: 'À venir' },
+  workflows_chip_continuous: { en: 'Continuous', fr: 'Continu' },
+})

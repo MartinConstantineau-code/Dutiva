@@ -1,0 +1,543 @@
+/**
+ * chat-markdown.css — presentation layer for <ChatMarkdown />.
+ *
+ * Most presentation colors are mixed from `currentColor`, i.e. the text color
+ * the message bubble already uses. Chart categorical colors use the explicit
+ * palette defined below. Light mode, dark mode, and any brand palette work
+ * with no configuration. To tune, set these on `.cm-root` or any ancestor:
+ *
+ *   --cm-accent          link / rule / quote accent      (default: inherits text)
+ *   --cm-surface-solid   opaque backdrop behind sticky headers and scroll
+ *                        shadows (default: Canvas — the system surface)
+ *   --cm-radius          corner radius for tables, cards, code   (default: 12px)
+ *
+ * In this app both overrides are set at the call site from the app-surface
+ * tokens: `[--cm-accent:var(--accent)] [--cm-surface-solid:var(--surface)]`
+ * on the assistant bubble (ChatBubble) and on the rail transcript.
+ */
+
+.cm-root {
+  --cm-accent: currentColor;
+  --cm-surface-solid: Canvas;
+  --cm-radius: 12px;
+
+  --cm-muted: color-mix(in srgb, currentColor 58%, transparent);
+  --cm-border: color-mix(in srgb, currentColor 16%, transparent);
+  --cm-border-strong: color-mix(in srgb, currentColor 28%, transparent);
+  --cm-wash: color-mix(in srgb, currentColor 4%, transparent);
+  --cm-wash-strong: color-mix(in srgb, currentColor 7%, transparent);
+
+  /* Type comes from the call site — the chat bubble is 14.5px/1.6, the rail
+     transcript 13.5px/1.55 — and every size below is relative (`em`), so the
+     whole scale follows whichever surface the renderer lands in. */
+  font-size: inherit;
+  line-height: inherit;
+  overflow-wrap: break-word;
+}
+
+/* Flow spacing: one rule, so nothing collapses or doubles. */
+.cm-root > * + * {
+  margin-top: 0.85em;
+}
+.cm-root > :first-child {
+  margin-top: 0;
+}
+.cm-root > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------------- Headings */
+
+.cm-h {
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+.cm-root > .cm-h + * {
+  margin-top: 0.45em;
+}
+.cm-root > * + .cm-h {
+  margin-top: 1.5em;
+}
+.cm-h1 {
+  font-size: 1.28em;
+  letter-spacing: -0.012em;
+}
+.cm-h2 {
+  font-size: 1.14em;
+  letter-spacing: -0.008em;
+}
+.cm-h3 {
+  font-size: 1.03em;
+}
+.cm-h4 {
+  font-size: 0.86em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cm-muted);
+}
+
+/* -------------------------------------------------------- Text and lists */
+
+.cm-p {
+  margin: 0;
+}
+
+.cm-ul,
+.cm-ol {
+  margin: 0;
+  padding-left: 1.35em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+}
+.cm-ul {
+  list-style: disc;
+}
+.cm-ol {
+  list-style: decimal;
+}
+.cm-ul .cm-ul {
+  list-style: circle;
+}
+
+.cm-li {
+  margin: 0;
+  padding-left: 0.15em;
+}
+.cm-li::marker {
+  color: var(--cm-muted);
+}
+.cm-li > .cm-ul,
+.cm-li > .cm-ol {
+  margin-top: 0.35em;
+}
+.cm-li > .cm-p + .cm-p {
+  margin-top: 0.4em;
+}
+
+/* GFM task lists */
+.cm-li.task-list-item {
+  list-style: none;
+  margin-left: -1.2em;
+  padding-left: 0;
+}
+.cm-li.task-list-item input[type='checkbox'] {
+  margin-right: 0.5em;
+  accent-color: var(--cm-accent);
+  vertical-align: baseline;
+}
+
+.cm-a {
+  color: var(--cm-accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.06em;
+  text-decoration-color: color-mix(in srgb, var(--cm-accent) 45%, transparent);
+}
+.cm-a:hover {
+  text-decoration-color: currentColor;
+}
+
+.cm-hr {
+  margin: 1.4em 0;
+  border: 0;
+  border-top: 1px solid var(--cm-border);
+}
+
+.cm-quote {
+  margin: 0;
+  padding: 0.7em 0.95em;
+  border-left: 3px solid var(--cm-accent);
+  border-radius: 0 var(--cm-radius) var(--cm-radius) 0;
+  background: var(--cm-wash);
+  color: var(--cm-muted);
+}
+.cm-quote > * + * {
+  margin-top: 0.6em;
+}
+.cm-quote strong {
+  color: currentColor;
+}
+
+/* --------------------------------------------------------------- Tables */
+
+.cm-tablewrap {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  /* Scroll affordance: edge fades that resolve into shadows when clipped. */
+  background:
+    linear-gradient(to right, var(--cm-surface-solid) 40%, transparent) left center / 28px 100%
+      no-repeat,
+    linear-gradient(to left, var(--cm-surface-solid) 40%, transparent) right center / 28px 100%
+      no-repeat,
+    radial-gradient(
+        farthest-side at 0 50%,
+        color-mix(in srgb, currentColor 16%, transparent),
+        transparent
+      )
+      left center / 12px 100% no-repeat,
+    radial-gradient(
+        farthest-side at 100% 50%,
+        color-mix(in srgb, currentColor 16%, transparent),
+        transparent
+      )
+      right center / 12px 100% no-repeat;
+  background-attachment: local, local, scroll, scroll;
+}
+.cm-tablewrap:focus-visible {
+  outline: 2px solid var(--cm-accent);
+  outline-offset: 2px;
+}
+
+.cm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.94em;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+.cm-th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.7em 0.9em;
+  background: var(--cm-surface-solid);
+  box-shadow: inset 0 -1px 0 var(--cm-border-strong);
+  font-size: 0.86em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--cm-muted);
+}
+
+.cm-td {
+  padding: 0.7em 0.9em;
+  vertical-align: top;
+  border-top: 1px solid var(--cm-border);
+}
+.cm-table tbody tr:nth-child(even) .cm-td {
+  background: var(--cm-wash);
+}
+.cm-td:first-child {
+  font-weight: 600;
+}
+
+/* Phone: a 4-column table can't win at 390px, so each row becomes a card
+   titled by its first cell, with every value tagged by its column header. */
+@media (max-width: 639px) {
+  .cm-tablewrap {
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+    background: none;
+  }
+  .cm-table,
+  .cm-table tbody,
+  .cm-tr,
+  .cm-td {
+    display: block;
+    width: 100%;
+  }
+  .cm-thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .cm-tr {
+    padding: 0.85em 0.95em;
+    border: 1px solid var(--cm-border);
+    border-radius: var(--cm-radius);
+    background: var(--cm-wash);
+  }
+  .cm-tr + .cm-tr {
+    margin-top: 0.6em;
+  }
+
+  .cm-td {
+    padding: 0.5em 0 0;
+    border: 0;
+    background: none !important;
+    text-align: left !important; /* beats GFM's inline alignment */
+  }
+  .cm-td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 0.15em;
+    font-size: 0.76em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cm-muted);
+  }
+  .cm-td[data-label='']::before {
+    display: none;
+  }
+
+  /* First cell is the card's title, not a labelled field. */
+  .cm-td:first-child {
+    padding: 0 0 0.5em;
+    margin-bottom: 0.25em;
+    border-bottom: 1px solid var(--cm-border);
+    font-size: 1.05em;
+    font-weight: 700;
+  }
+  .cm-td:first-child::before {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------------- Code */
+
+.cm-code {
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: var(--cm-wash-strong);
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+.cm-pre {
+  margin: 0;
+  padding: 0.9em 1em;
+  overflow-x: auto;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  background: var(--cm-wash);
+}
+.cm-codeblock {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.86em;
+  line-height: 1.55;
+  white-space: pre;
+}
+
+/* --------------------------------------------------------------- Images */
+
+.cm-image-placeholder {
+  display: inline-block;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: var(--cm-muted);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------ Streaming */
+
+/* The blinking caret that trails a reply still arriving. Generated content on
+   the last block, so it sits inline at the end of the text instead of on a
+   line of its own; `:empty` covers the first tick, before any text has landed.
+   `blinkCursor` is the app-wide keyframe from src/styles/animations.css. */
+.cm-streaming > :last-child::after,
+.cm-streaming:empty::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  margin-left: 2px;
+  vertical-align: middle;
+  background: currentColor;
+  animation: blinkCursor 0.9s infinite;
+}
+
+/* --------------------------------------------------------------- Charts */
+
+/* Categorical slots 1–5, assigned in fixed order. Both modes are selected —
+ * the dark column is the same five hues re-stepped for a dark surface, not an
+ * automatic flip. Validated: adjacent-pair CVD ΔE 9.1 light / 8.4 dark,
+ * normal-vision ΔE 19.6 / 19.3. Three light steps sit below 3:1 against a
+ * white surface, so charts ship direct labels and a data table as relief. */
+.cm-root {
+  --cm-chart-1: #2a78d6;
+  --cm-chart-2: #eb6834;
+  --cm-chart-3: #1baf7a;
+  --cm-chart-4: #eda100;
+  --cm-chart-5: #e87ba4;
+
+  --cm-chart-surface: var(--cm-surface-solid);
+  --cm-chart-ink: currentColor;
+  --cm-chart-muted: var(--cm-muted);
+  --cm-chart-grid: var(--cm-border);
+  --cm-chart-axis: var(--cm-border-strong);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme='light']):not(.light)) .cm-root {
+    --cm-chart-1: #3987e5;
+    --cm-chart-2: #d95926;
+    --cm-chart-3: #199e70;
+    --cm-chart-4: #c98500;
+    --cm-chart-5: #d55181;
+  }
+}
+/* Explicit theme wins over the OS setting, in both directions. */
+:root[data-theme='dark'] .cm-root,
+:root.dark .cm-root {
+  --cm-chart-1: #3987e5;
+  --cm-chart-2: #d95926;
+  --cm-chart-3: #199e70;
+  --cm-chart-4: #c98500;
+  --cm-chart-5: #d55181;
+}
+
+.cm-chart {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 0.9em 0.95em 0.75em;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  background: var(--cm-wash);
+}
+/* Placeholder while the chart chunk loads — same frame, so the reply doesn't
+   reflow when the real figure arrives. */
+.cm-chart-loading {
+  min-height: 260px;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius);
+  background: var(--cm-wash);
+}
+.cm-chart-title {
+  font-size: 0.95em;
+  font-weight: 650;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.cm-chart-plot {
+  width: 100%;
+  /* Recharts measures its parent; keep it from collapsing mid-layout. */
+  min-width: 0;
+}
+.cm-chart .recharts-legend-wrapper {
+  font-size: 12px;
+  color: var(--cm-muted);
+  padding-bottom: 4px;
+}
+.cm-chart .recharts-label-list text {
+  fill: var(--cm-chart-ink);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cm-chart-swatch-1 {
+  background: var(--cm-chart-1);
+}
+.cm-chart-swatch-2 {
+  background: var(--cm-chart-2);
+}
+.cm-chart-swatch-3 {
+  background: var(--cm-chart-3);
+}
+.cm-chart-swatch-4 {
+  background: var(--cm-chart-4);
+}
+.cm-chart-swatch-5 {
+  background: var(--cm-chart-5);
+}
+.cm-th-center,
+.cm-td-center {
+  text-align: center;
+}
+.cm-th-right,
+.cm-td-right {
+  text-align: right;
+}
+.cm-chart-note {
+  margin: 0;
+  font-size: 0.85em;
+  line-height: 1.45;
+  color: var(--cm-muted);
+}
+.cm-chart-toggle {
+  align-self: flex-start;
+  padding: 0.3em 0.7em;
+  border: 1px solid var(--cm-border);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--cm-muted);
+  cursor: pointer;
+}
+.cm-chart-toggle:hover {
+  color: inherit;
+  border-color: var(--cm-border-strong);
+}
+.cm-chart-toggle:focus-visible {
+  outline: 2px solid var(--cm-accent);
+  outline-offset: 2px;
+}
+
+.cm-chart-tip {
+  padding: 0.5em 0.65em;
+  border: 1px solid var(--cm-border);
+  border-radius: 8px;
+  background: var(--cm-surface-solid);
+  box-shadow: 0 6px 20px color-mix(in srgb, currentColor 12%, transparent);
+  font-size: 0.82em;
+  line-height: 1.5;
+}
+.cm-chart-tip-label {
+  margin-bottom: 0.2em;
+  font-weight: 700;
+}
+.cm-chart-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 0.45em;
+}
+.cm-chart-tip-name {
+  color: var(--cm-muted);
+}
+.cm-chart-tip-value {
+  margin-left: auto;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+.cm-chart-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-root *,
+  .cm-root *::before,
+  .cm-root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------- Print */
+
+@media print {
+  .cm-tablewrap {
+    overflow: visible;
+    background: none;
+  }
+  .cm-th {
+    position: static;
+  }
+  .cm-a {
+    text-decoration: none;
+  }
+  .cm-a::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    color: #555;
+  }
+}

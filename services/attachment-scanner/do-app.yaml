@@ -1,0 +1,67 @@
+# DigitalOcean App Platform spec for the attachment scanner.
+#
+#   doctl apps create --spec services/attachment-scanner/do-app.yaml
+#
+# Region is tor (Toronto) deliberately: this service fetches the actual bytes of
+# customer HR attachments, so it belongs in the same jurisdiction — and on the
+# same provider — as the rest of the footprint, which is what lets OA9's
+# residency answer cover it rather than opening a second question.
+
+name: dutiva-attachment-scanner
+region: tor
+
+services:
+  - name: scanner
+
+    github:
+      repo: Dutiva-Canada/Dutiva-Website-Final-Design
+      branch: main
+      # Left off deliberately. This service gates support-attachment downloads;
+      # an unreviewed push should not silently redeploy the thing deciding
+      # whether a file is safe to hand over.
+      deploy_on_push: false
+
+    source_dir: services/attachment-scanner
+    dockerfile_path: services/attachment-scanner/Dockerfile
+
+    http_port: 8080
+    instance_count: 1
+
+    # 2 GB is a hard floor, not a preference. clamd loads the full signature
+    # database into memory (~3.3M signatures); on a 0.5 GB or 1 GB slug it is
+    # OOM-killed partway through startup, the health check never passes, and
+    # every attachment comes back `scanner_unreachable` — which reads like a
+    # network fault and is not one. Roughly $25/mo.
+    instance_size_slug: apps-s-1vcpu-2gb
+
+    health_check:
+      http_path: /health
+      # clamd needs 30-90s to parse the database before the endpoint answers;
+      # the entrypoint deliberately holds it back until then. Too short an
+      # initial delay makes App Platform kill the container mid-startup, over
+      # and over, and the logs look like a crash loop rather than a slow boot.
+      initial_delay_seconds: 240
+      period_seconds: 30
+      timeout_seconds: 10
+      success_threshold: 1
+      failure_threshold: 3
+
+    envs:
+      # Pins what the service will fetch. The URL always arrives from our own
+      # worker, but this endpoint is reachable from the internet and an
+      # authenticated URL-fetcher is still an SSRF primitive.
+      - key: ALLOWED_FETCH_HOST
+        scope: RUN_TIME
+        value: khtwpxnvziiyplaflwru.supabase.co
+
+      # SET THIS YOURSELF — do not commit a value here.
+      #   doctl apps update <app-id> --spec … after replacing the placeholder,
+      #   or set it in the App Platform dashboard as an encrypted variable.
+      # Generate with:  openssl rand -hex 32
+      # The same value goes into Supabase as SUPPORT_ATTACHMENT_SCAN_KEY.
+      # The service refuses to start without it rather than serving an
+      # unauthenticated scan endpoint.
+      - key: SCAN_TOKEN
+        scope: RUN_TIME
+        type: SECRET
+        value: REPLACE_ME_BEFORE_CREATING

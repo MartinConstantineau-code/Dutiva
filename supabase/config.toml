@@ -1,0 +1,97 @@
+# Supabase CLI project root.
+#
+# WHY THIS FILE EXISTS. Without it this repo is not a CLI project: `supabase`
+# walks *up* from the working directory looking for supabase/config.toml, finds
+# nothing here, and silently uses whatever project it does find. On 2026-08-06
+# that was a stale April copy in the user's home folder
+# (project_id "dutiva-main"), and `functions deploy monitor-law-changes` run
+# from there shipped a 535-line April version of the function over the current
+# one — reverting four months of law-monitoring work and removing the auth check
+# entirely. The command reported success. Nothing about it looked wrong.
+#
+# The functions blocks below are the second half of that lesson. The CLI reads
+# verify_jwt from here, so every function that must stay reachable without a JWT
+# — webhooks, public intake, and the cron-triggered workers that authenticate
+# themselves in-band — has to say so explicitly. Otherwise a future
+# `supabase functions deploy` (no slug = all of them) flips them closed and
+# Stripe, Resend, and the public support form start failing 401 at once.
+#
+# Values below match production as of 2026-08-06. If you change verify_jwt on a
+# function, change it here in the same commit.
+
+project_id = "khtwpxnvziiyplaflwru"
+
+# ── Webhooks: authenticated by provider signature, not a JWT ─────────────────
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.resend-webhook]
+verify_jwt = false
+
+# Workspace inbound webhooks — callers sign with the per-integration secret
+# (X-Dutiva-Signature); there is no user JWT in the flow.
+[functions.integration-webhook]
+verify_jwt = false
+
+# ── Public, unauthenticated by design ───────────────────────────────────────
+[functions.create-public-support-ticket]
+verify_jwt = false
+
+[functions.create-beta-signup]
+verify_jwt = false
+
+[functions.beta-cohort-status]
+verify_jwt = false
+
+[functions.report-error]
+verify_jwt = false
+
+# Fire-and-forget sinks. Their clients send NO apikey and NO Authorization
+# header — see src/lib/errorReporting/reporter.ts and
+# src/features/support/analytics/supportAnalytics.ts, both of which post a bare
+# body with keepalive so the request survives page unload. With verify_jwt on,
+# the gateway rejects every flush with UNAUTHORIZED_NO_AUTH_HEADER and the
+# client never notices, because both swallow errors by design. Deployed as
+# `true` on 2026-08-06 for exactly that reason, and it silently ate every
+# event until the 401 was traced.
+[functions.support-analytics-event]
+verify_jwt = false
+
+# ── Cron-triggered workers: they authenticate the caller themselves ─────────
+# Each checks a shared secret (and/or an exact service-key match) in its own
+# handler. That in-handler check is the only gate, which is exactly why the
+# 2026-08-06 audit mattered — see migration 0049.
+[functions.monitor-law-changes]
+verify_jwt = false
+
+[functions.support-call-scheduler]
+verify_jwt = false
+
+[functions.support-attachment-scan]
+verify_jwt = false
+
+[functions.support-notify]
+verify_jwt = false
+
+[functions.send-law-updates]
+verify_jwt = false
+
+[functions.record-score-snapshots]
+verify_jwt = false
+
+[functions.send-signing-invite]
+verify_jwt = false
+
+[functions.signing-reminder-scheduler]
+verify_jwt = false
+
+[functions.policy-review-scheduler]
+verify_jwt = false
+
+[functions.notify-signing-status]
+verify_jwt = false
+
+# Public inbound email ingest — Resend's `email.received` webhook has no
+# user JWT; authentication is the Svix signature over the raw body.
+[functions.inbound-email]
+verify_jwt = false

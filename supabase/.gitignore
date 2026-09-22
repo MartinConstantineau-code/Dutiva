@@ -1,0 +1,5 @@
+# Supabase CLI scratch state — per-machine, not project config.
+# `.temp/linked-project.json` records which project this checkout is linked to
+# on *this* machine; committing it would hand a teammate someone else's link.
+.temp/
+.branches/

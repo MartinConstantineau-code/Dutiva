@@ -1,0 +1,120 @@
+/*
+ *   Copyright (c) 2026 
+ *   All rights reserved.
+ */
+/* ── Dutiva — base resets ─────────────────────────────────────────────────────
+   Global resets ported from the prototypes (App v2.dc.html head styles).
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* --bg lives on the .surface-* wrappers, not on body, so the fallback is what
+   actually paints here. It shows wherever the document outgrows the surface
+   (overscroll, injected elements) — keep it matched to the active theme so no
+   dark band appears behind light pages (and vice versa). */
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg, #070e1a);
+  font-family: var(--font-sans);
+  /* index.html opts into viewport-fit=cover so the app's bottom nav can pad
+     itself past the home indicator. That also lets the page paint under the
+     notch, which nothing else wants: hold the document's horizontal edges
+     clear of it. Both insets are 0 in portrait and on devices without a
+     cutout, so this only bites in landscape. The padded strips keep body's
+     background, so no bar appears beside the content. */
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Never let the page scroll sideways. Off-canvas/fixed overlays — chiefly the
+   mobile nav drawer, which parks just off the right edge while closed — extend
+   the initial containing block and otherwise leave a phantom horizontal
+   scroll (a blank band on the right on mobile). Clip it at the root. `clip`,
+   not `hidden`, so no scroll container is created and the sticky header keeps
+   sticking; genuinely wide blocks (e.g. the pricing comparison table) still
+   scroll inside their own `overflow-x: auto` wrappers. */
+html {
+  overflow-x: clip;
+}
+
+[data-theme='light'] body {
+  background: var(--bg, #f5f3ec);
+}
+
+body,
+[data-theme] {
+  transition: background-color 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus, #0f766e);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role='button']:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--focus, #0f766e);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide scrollbars while preserving scroll behaviour (compact rail, etc.).
+   -ms-overflow-style covers legacy Edge/IE; the standard property is
+   wrapped in @supports because it is not recognised in older WebKit /
+   Chromium builds, which fall back to the ::-webkit-scrollbar rule. */
+.no-scrollbar {
+  -ms-overflow-style: none;
+}
+@supports (scrollbar-width: none) {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Thin scrollbar for the expanded sidebar rail — less visual weight than the
+   OS default while still discoverable. Compact mode uses .no-scrollbar. */
+.rail-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.rail-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.rail-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 999px;
+}
+.rail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+iframe.gtm-ns {
+  display: none;
+  visibility: hidden;
+  border: 0;
+}
+
+/* Landscape-specific adjustments for compact mode */
+@media (orientation: landscape) and (max-height: 500px) {
+  .landscape-compact {
+    --page-gutter: 12px;
+    --text-sm: 0.8125rem;
+    --text-base: 0.9375rem;
+    --control-height: 40px;
+  }
+}
